@@ -71,7 +71,7 @@ sitemap.prototype.write = function() {
         }
         return true;
     });
-}
+};
 /**
  * generate sitemap
  * 
@@ -127,7 +127,7 @@ function sitemap(options) {
     };
     this.sitemap = typeof (options.sitemap) == 'object' ? options.sitemap : Object.create(null);
     return;
-};
+}
 /**
  * export class
  * 
@@ -136,4 +136,4 @@ function sitemap(options) {
 module.exports = function(options) {
 
     return new sitemap(options);
-}
+};
