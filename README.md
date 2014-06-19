@@ -57,7 +57,7 @@ sitemap.write();
 
 Take a look at my [examples](https://github.com/hex7c0/express-sitemap/tree/master/examples)
 
-Not working (for now) for middleware: http://expressjs.com/4x/api.html#app.use
+Middleware not working (for now) http://expressjs.com/4x/api.html#app.use
 
 ## License
 Copyright (c) 2014 hex7c0
