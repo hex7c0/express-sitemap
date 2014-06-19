@@ -1,6 +1,6 @@
 {
   "name": "express-sitemap",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "sitemap for expressjs 4",
   "main": "index.js",
   "repository": {
