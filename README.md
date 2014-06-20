@@ -38,12 +38,12 @@ sitemap.generate(app);
 
 stream sitemap Object to web
 ```js
-sitemap.web();
+sitemap.toWeb(res);
 ```
 
 write sitemap Object to file
 ```js
-sitemap.write();
+sitemap.toFile();
 ```
 
 ### sitemap(options)
@@ -57,6 +57,7 @@ sitemap.write();
   - `changefreq` - **String** Integrity not controlled
   - `priority` - **Float** Integrity not controlled
  - `sitemap` - **Object** Force route (<loc>) detection and building *(default "disabled")*
+ - `generate` - **Object** Fastly generate sitemap from express app *(default "disabled")*
 
 #### Examples
 

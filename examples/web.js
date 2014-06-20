@@ -62,10 +62,11 @@ app.all('/all',function(req,res) {
 /*
  * sitemap
  */
-app.get('/sitemap',function(req,res) {
+app.get('/sitemap.xml',function(req,res) {
 
-    sitemap = sitemap();
-    sitemap.generate(app);
+    sitemap = sitemap({
+        generate: app
+    });
     sitemap.toWeb(res);
 });
 

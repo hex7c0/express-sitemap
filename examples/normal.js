@@ -62,7 +62,7 @@ app.all('/all',function(req,res) {
 /*
  * sitemap
  */
-sitemap = sitemap({
+sitemap({
     file: 'normal.xml',
     route: {
         '/': {
@@ -75,6 +75,6 @@ sitemap = sitemap({
             changefreq: 'never',
         },
     },
-});
-sitemap.generate(app);
-sitemap.toFile();
+    generate: app,
+}).toFile();
+console.log('file wrote');

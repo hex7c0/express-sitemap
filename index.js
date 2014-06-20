@@ -172,9 +172,13 @@ function sitemap(options) {
     this.my = {
         file: String(options.file || 'sitemap.xml'),
         url: http + url + port,
+        robots: Boolean(options.robots),
         route: typeof (options.route) == 'object' ? options.route : Object.create(null),
     };
     this.sitemap = typeof (options.sitemap) == 'object' ? options.sitemap : Object.create(null);
+    if (options.generate && options.generate._router) {
+        this.generate(options.generate);
+    }
     return;
 }
 /**
