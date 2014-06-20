@@ -53,11 +53,13 @@ sitemap.toFile();
  - `port` - **Number** Website Port *(default "80")*
  - `file` - **String** Name of your sitemap file *(default "sitemap.xml")*
  - `route` - **Object** Add extra information to sitemap related to this [documentation](http://www.sitemaps.org/protocol.html#xmlTagDefinitions) *(default "disabled")*
+  - `disallow` - **Boolean** Flag for disallow this route from parsing *(default "false")*
   - `lastmod` - **Date** Integrity not controlled
   - `changefreq` - **String** Integrity not controlled
   - `priority` - **Float** Integrity not controlled
  - `sitemap` - **Object** Force route (<loc>) detection and building *(default "disabled")*
  - `generate` - **Object** Fastly generate sitemap from express app *(default "disabled")*
+ - `robots` - **Boolean** Flag for build robots.txt file *(default "disabled")*
 
 #### Examples
 

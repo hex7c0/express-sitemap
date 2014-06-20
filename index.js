@@ -38,30 +38,32 @@ sitemap.prototype.xml = function() {
     data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     for ( var uri in this.sitemap) {
         var rr = route[uri] || route['ALL'] || false;
-        data += '<url>';
-        // loc
-        data += '<loc>';
-        data += this.my.url;
-        data += uri;
-        data += '</loc>';
-        if (rr) {
-            if (temp = rr.lastmod) {
-                data += '<lastmod>';
-                data += temp;
-                data += '</lastmod>';
+        if (!route[uri].disallow) {
+            data += '<url>';
+            // loc
+            data += '<loc>';
+            data += this.my.url;
+            data += uri;
+            data += '</loc>';
+            if (rr) {
+                if (temp = rr.lastmod) {
+                    data += '<lastmod>';
+                    data += temp;
+                    data += '</lastmod>';
+                }
+                if (temp = rr.changefreq) {
+                    data += '<changefreq>';
+                    data += temp;
+                    data += '</changefreq>';
+                }
+                if (temp = rr.priority) {
+                    data += '<priority>';
+                    data += temp;
+                    data += '</priority>';
+                }
             }
-            if (temp = rr.changefreq) {
-                data += '<changefreq>';
-                data += temp;
-                data += '</changefreq>';
-            }
-            if (temp = rr.priority) {
-                data += '<priority>';
-                data += temp;
-                data += '</priority>';
-            }
+            data += '</url>';
         }
-        data += '</url>';
     }
     data += '</urlset>';
     return data;
