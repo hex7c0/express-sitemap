@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 0.0.1
+ * @version 1.0.1
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -25,12 +25,12 @@ try {
  * functions
  */
 /**
- * write sitemap to file
+ * create xml from sitemap
  * 
- * @function write
- * @return {Boolean}
+ * @function xml
+ * @return {Object}
  */
-sitemap.prototype.write = function() {
+sitemap.prototype.xml = function() {
 
     var temp = null;
     var route = this.my.route;
@@ -64,6 +64,17 @@ sitemap.prototype.write = function() {
         data += '</url>';
     }
     data += '</urlset>';
+    return data;
+};
+/**
+ * write sitemap to file
+ * 
+ * @function write
+ * @param {String} data - created xml
+ * @return {Boolean}
+ */
+sitemap.prototype.write = function(data) {
+
     return FS.writeFile(this.my.file,data,function(err) {
 
         if (err) {
@@ -71,6 +82,41 @@ sitemap.prototype.write = function() {
         }
         return true;
     });
+};
+/**
+ * alis for write sitemap to file
+ * 
+ * @function toFile
+ * @return {Boolean}
+ */
+sitemap.prototype.toFile = function() {
+
+    return this.write(this.xml());
+};
+/**
+ * stream sitemap to web
+ * 
+ * @function web
+ * @param {String} data - created xml
+ * @param {Object} res - response to client
+ * @return
+ */
+sitemap.prototype.stream = function(data,res) {
+
+    res.header('Content-Type','application/xml');
+    res.send(data);
+    return;
+};
+/**
+ * alis for stream sitemap to web
+ * 
+ * @function toFile
+ * @param {Object} res - response to client
+ * @return
+ */
+sitemap.prototype.toWeb = function(res) {
+
+    return this.stream(this.xml(),res);
 };
 /**
  * generate sitemap
@@ -86,11 +132,14 @@ sitemap.prototype.generate = function(app) {
     for (var i = 0, il = routing.length; i < il; i++) {
         var route = routing[i].route;
         if (route) {
-            if (that[route.path] == undefined) {
-                that[route.path] = [];
+            var path = route.path;
+            if (that[path] == undefined) {
+                that[path] = [];
             }
             for ( var name in route.methods) {
-                that[route.path].push(name);
+                if (that[path].indexOf(name) < 0) {
+                    that[path].push(name);
+                }
             }
         }
     }

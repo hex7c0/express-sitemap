@@ -26,17 +26,22 @@ sitemap.generate(app);
 
 ### methods
 
-reset sitemap
+reset Object sitemap
 ```js
 sitemap.reset();
 ```
 
-generate sitemap
+generate prototype Object for sitemap
 ```js
 sitemap.generate(app);
 ```
 
-write sitemap to file
+stream sitemap Object to web
+```js
+sitemap.web();
+```
+
+write sitemap Object to file
 ```js
 sitemap.write();
 ```
@@ -51,7 +56,7 @@ sitemap.write();
   - `lastmod` - **Date** Integrity not controlled
   - `changefreq` - **String** Integrity not controlled
   - `priority` - **Float** Integrity not controlled
- - `sitemap` - **Object** Force route detection and building *(default "disabled")*
+ - `sitemap` - **Object** Force route (<loc>) detection and building *(default "disabled")*
 
 #### Examples
 
