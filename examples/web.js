@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @file all example
+ * @file web example
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage examples
@@ -62,16 +62,13 @@ app.all('/all',function(req,res) {
 /*
  * sitemap
  */
-sitemap = sitemap({
-    file: 'all.xml',
-    route: {
-        'ALL': {
-            lastmod: '2014-06-20',
-            changefreq: 'always',
-            priority: 1.0,
-        }
-    },
+app.get('/sitemap',function(req,res) {
+
+    sitemap = sitemap();
+    sitemap.generate(app);
+    sitemap.toWeb(res);
 });
-sitemap.generate(app);
-sitemap.toFile();
-console.log('file wrote');
+
+// server starting
+app.listen(3000);
+console.log('starting "hello world" on port 3000');

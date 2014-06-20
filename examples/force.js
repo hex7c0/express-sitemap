@@ -36,4 +36,4 @@ sitemap({
             priority: 1.0,
         },
     },
-}).write();
+}).toFile();

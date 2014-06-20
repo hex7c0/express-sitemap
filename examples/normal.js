@@ -58,9 +58,6 @@ app.all('/all',function(req,res) {
 
     res.send('hello /all');
 });
-// server starting
-app.listen(3000);
-console.log('starting "hello world" on port 3000');
 
 /*
  * sitemap
@@ -80,4 +77,4 @@ sitemap = sitemap({
     },
 });
 sitemap.generate(app);
-sitemap.write();
+sitemap.toFile();
