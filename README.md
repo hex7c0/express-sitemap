@@ -71,15 +71,15 @@ sitemap.TXTtoWeb(res);
  - `http` - **String** Website HTTP protocol (http | https) *(default "http")*
  - `url` - **String** Website URL *(default "127.0.0.1")*
  - `port` - **Number** Website Port *(default "80")*
- - `file` - **String** Name of sitemap file *(default "sitemap.xml")*
+ - `sitemap` - **String** Name of sitemap file *(default "sitemap.xml")*
+ - `robots` - **String** Name of robots file *(default "robots.txt")*
  - `route` - **Object** Add extra information to sitemap related to this [documentation](http://www.sitemaps.org/protocol.html#xmlTagDefinitions) *(default "disabled")*
   - `lastmod` - **Date** Integrity not controlled
   - `changefreq` - **String** Integrity not controlled
   - `priority` - **Float** Integrity not controlled
   - `disallow` - **Boolean** Flag for disallow this route from parsing *(default "false")*
- - `sitemap` - **Object** Force route (<loc>) detection and building *(default "disabled")*
+ - `map` - **Object** Force route (<loc>) detection and building *(default "disabled")*
  - `generate` - **Object** Fastly generate sitemap from express app *(default "disabled")*
- - `robots` - **Boolean** Flag for build robots.txt *(default "disabled")*
 
 you can use ```route:{'ALL': {}}``` if you want propagate extra information to all your urls
 
