@@ -63,7 +63,7 @@ app.all('/all',function(req,res) {
  * sitemap
  */
 sitemap = sitemap({
-    file: 'normal.xml',
+    sitemap: 'normal.xml',
     route: {
         '/': {
             lastmod: '2014-06-19',
@@ -79,8 +79,7 @@ sitemap = sitemap({
         },
     },
     generate: app,
-    robots: true,
+    robots: 'normal.txt',
 });
-sitemap.XMLtoFile();
-sitemap.TXTtoFile();
+sitemap.toFile();
 console.log('files wrote');

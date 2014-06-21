@@ -24,8 +24,8 @@ try {
  * sitemap
  */
 sitemap({
-    file: 'force.xml',
-    sitemap: {
+    sitemap: 'force.xml',
+    map: {
         '/pippo': ['get'],
         '/pluto': ['get','post'],
     },

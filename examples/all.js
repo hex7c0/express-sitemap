@@ -63,7 +63,7 @@ app.all('/all',function(req,res) {
  * sitemap
  */
 sitemap = sitemap({
-    file: 'all.xml',
+    sitemap: 'all.xml',
     route: {
         'ALL': {
             lastmod: '2014-06-20',
