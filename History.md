@@ -2,8 +2,9 @@ v1.2.0 / 2014-06-21
 ==================
 
   * Rename `sitemap` option to `map`
+  * Rename `file` option to `sitemap`
   * Change type of `robots` option. Now accept String
-  * Sitemap generate url GET request only
+  * Sitemap generate url for GET request only
   * Fix `toFile()` function
 
 v1.1.0 / 2014-06-21
