@@ -1,9 +1,15 @@
+v1.1.0 / 2014-06-21
+
+  * Resolve middleware or dynamic building
+  * Robots.txt builder
+  * add `robots` option
+  * Change name of methods
+
 v1.0.1 / 2014-06-20
 ==================
 
   * Web output
-  * Change name of method
-  * add 'generate' option
+  * add `generate` option
 
 v1.0.0 / 2014-06-20
 ==================

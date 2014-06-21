@@ -31,19 +31,39 @@ reset Object sitemap
 sitemap.reset();
 ```
 
-generate prototype Object for sitemap
+generate prototype for sitemap
 ```js
 sitemap.generate(app);
 ```
 
-stream sitemap Object to web
+generate prototype for sitemap if you use middleware or dynamic building
 ```js
-sitemap.toWeb(res);
+sitemap.tickle();
 ```
 
 write sitemap Object to file
 ```js
+sitemap.XMLtoFile();
+```
+
+write robots.txt to file
+```js
+sitemap.TXTtoFile();
+```
+
+write both to files
+```js
 sitemap.toFile();
+```
+
+stream sitemap to web
+```js
+sitemap.XMLtoWeb(res);
+```
+
+stream robots.txt to web
+```js
+sitemap.TXTtoWeb(res);
 ```
 
 ### sitemap(options)
@@ -60,6 +80,8 @@ sitemap.toFile();
  - `sitemap` - **Object** Force route (<loc>) detection and building *(default "disabled")*
  - `generate` - **Object** Fastly generate sitemap from express app *(default "disabled")*
  - `robots` - **Boolean** Flag for build robots.txt file *(default "disabled")*
+
+you can use ```route:{'ALL': {}}``` if you want propagate extra information to all your urls
 
 #### Examples
 
