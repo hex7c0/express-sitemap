@@ -1,8 +1,9 @@
 v1.1.0 / 2014-06-21
+==================
 
   * Resolve middleware or dynamic building
   * Robots.txt builder
-  * add `robots` option
+  * Add `robots` option
   * Change name of methods
 
 v1.0.1 / 2014-06-20
