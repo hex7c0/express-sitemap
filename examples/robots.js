@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @file normal example
+ * @file robots example
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage examples
@@ -63,24 +63,12 @@ app.all('/all',function(req,res) {
  * sitemap
  */
 sitemap = sitemap({
-    file: 'normal.xml',
     route: {
-        '/': {
-            lastmod: '2014-06-19',
-            changefreq: 'always',
-            priority: 1.0,
-        },
-        '/admin': {
+        'ALL': {
             disallow: true,
-        },
-        '/nooo': {
-            lastmod: '2014-06-20',
-            changefreq: 'never',
-        },
+        }
     },
-    generate: app,
-    robots: true,
 });
-sitemap.XMLtoFile();
+sitemap.generate(app);
 sitemap.TXTtoFile();
-console.log('files wrote');
+console.log('file wrote');

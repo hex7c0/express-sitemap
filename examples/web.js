@@ -62,12 +62,16 @@ app.all('/all',function(req,res) {
 /*
  * sitemap
  */
+sitemap = sitemap({
+    generate: app
+});
 app.get('/sitemap.xml',function(req,res) {
 
-    sitemap = sitemap({
-        generate: app
-    });
-    sitemap.toWeb(res);
+    sitemap.XMLtoWeb(res);
+});
+app.get('/robots.txt',function(req,res) {
+
+    sitemap.TXTtoWeb(res);
 });
 
 // server starting

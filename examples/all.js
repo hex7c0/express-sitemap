@@ -73,5 +73,5 @@ sitemap = sitemap({
     },
 });
 sitemap.generate(app);
-sitemap.toFile();
+sitemap.XMLtoFile();
 console.log('file wrote');

@@ -17,11 +17,13 @@ try {
     var sitemap = require('../index.js'); // use require('express-sitemap') instead
     var father = require('express')();
     var child = require('express')();
+    var tickle = require('tickle');
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
     process.exit(1);
 }
 
+child.use(tickle);
 // express routing
 child.get('/',function(req,res) {
 
@@ -59,6 +61,16 @@ child.all('/all',function(req,res) {
 
     res.send('hello /all');
 });
+
+/*
+ * try now :)
+ */
+child.get('/sitemap.xml',function(req,res) {
+
+    sitemap.tickle();
+    sitemap.XMLtoWeb(res);
+});
+
 // server starting
 father.use(child);
 father.listen(3000);
@@ -75,3 +87,4 @@ console.log(sitemap.generate(father));
 sitemap.reset();
 console.log('Child');
 console.log(sitemap.generate(child));
+sitemap.reset();
