@@ -26,17 +26,17 @@ sitemap.generate(app);
 
 ### methods
 
-reset Object sitemap
+reset prototype Object for sitemap
 ```js
 sitemap.reset();
 ```
 
-generate prototype for sitemap
+generate prototype Object for sitemap
 ```js
 sitemap.generate(app);
 ```
 
-generate prototype for sitemap if you use middleware or dynamic building
+generate prototype Object for sitemap if you use middleware or dynamic building
 ```js
 sitemap.tickle();
 ```
@@ -68,18 +68,18 @@ sitemap.TXTtoWeb(res);
 
 ### sitemap(options)
 
- - `http` - **String** Website HTTP protocol (http|https) *(default "http")*
+ - `http` - **String** Website HTTP protocol (http | https) *(default "http")*
  - `url` - **String** Website URL *(default "127.0.0.1")*
  - `port` - **Number** Website Port *(default "80")*
- - `file` - **String** Name of your sitemap file *(default "sitemap.xml")*
+ - `file` - **String** Name of sitemap file *(default "sitemap.xml")*
  - `route` - **Object** Add extra information to sitemap related to this [documentation](http://www.sitemaps.org/protocol.html#xmlTagDefinitions) *(default "disabled")*
-  - `disallow` - **Boolean** Flag for disallow this route from parsing *(default "false")*
   - `lastmod` - **Date** Integrity not controlled
   - `changefreq` - **String** Integrity not controlled
   - `priority` - **Float** Integrity not controlled
+  - `disallow` - **Boolean** Flag for disallow this route from parsing *(default "false")*
  - `sitemap` - **Object** Force route (<loc>) detection and building *(default "disabled")*
  - `generate` - **Object** Fastly generate sitemap from express app *(default "disabled")*
- - `robots` - **Boolean** Flag for build robots.txt file *(default "disabled")*
+ - `robots` - **Boolean** Flag for build robots.txt *(default "disabled")*
 
 you can use ```route:{'ALL': {}}``` if you want propagate extra information to all your urls
 
@@ -87,7 +87,7 @@ you can use ```route:{'ALL': {}}``` if you want propagate extra information to a
 
 Take a look at my [examples](https://github.com/hex7c0/express-sitemap/tree/master/examples)
 
-_Middleware not working (for now) http://expressjs.com/4x/api.html#app.use_
+_Middleware is incompatible http://expressjs.com/4x/api.html#app.use, you can use [tickle](https://github.com/hex7c0/tickle)_
 
 ## License
 Copyright (c) 2014 hex7c0

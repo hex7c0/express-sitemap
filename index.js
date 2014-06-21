@@ -163,10 +163,9 @@ sitemap.prototype.xml = function() {
     var data = '<?xml version="1.0" encoding="UTF-8"?>';
     data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     for ( var uri in sitemap) {
-        var rr = route[uri] || route['ALL'] || false;
+        var rr = route['ALL'] || route[uri] || false;
         if (!rr || !rr.disallow) {
             data += '<url>';
-            // loc
             data += '<loc>';
             data += this.my.url;
             data += uri;
