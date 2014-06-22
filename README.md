@@ -1,6 +1,6 @@
 #express-sitemap [![Build Status](https://travis-ci.org/hex7c0/express-sitemap.svg?branch=master)](https://travis-ci.org/hex7c0/express-sitemap) [![NPM version](https://badge.fury.io/js/express-sitemap.svg)](http://badge.fury.io/js/express-sitemap)
 
-sitemap for [expressjs](http://expressjs.com/) 4
+sitemap and robots for [expressjs 4](http://expressjs.com/)
 
 ## Installation
 
@@ -22,6 +22,39 @@ var sitemap = require('express-sitemap')();
 var app = require('express')();
 
 sitemap.generate(app);
+```
+
+if you want generate your own url
+```js
+var sitemap = require('express-sitemap');
+
+sitemap({
+    map: {
+        '/pippo': ['get'],
+        '/pluto': ['get','post'],
+    },
+    route: {
+        '/pippo': {
+            lastmod: '2014-06-20',
+            changefreq: 'always',
+            priority: 1.0,
+        },
+    },
+}).XMLtoFile();
+```
+this is sitemap.xml
+```xml
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>http://127.0.0.1/pippo</loc>
+        <lastmod>2014-06-19</lastmod>
+        <changefreq>always</changefreq>
+        <priority>1</priority>
+    </url>
+    <url>
+        <loc>http://127.0.0.1/pluto</loc>
+    </url>
+</urlset>
 ```
 
 ### methods

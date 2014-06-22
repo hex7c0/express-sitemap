@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.2.0
+ * @version 1.2.1
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -48,17 +48,16 @@ function write(data,file) {
  * @function stream
  * @param {String} data - created xml or robots.txt
  * @param {Object} res - response to client
+ * @param {String} header - send header to client
  * @return
  */
-function stream(data,res) {
+function stream(data,res,header) {
 
-    res.send(data);
+    var re = res.res || res;
+    re.header('Content-Type',header);
+    re.send(data);
     return;
 }
-
-/*
- * class
- */
 /**
  * export class
  * 
@@ -68,6 +67,10 @@ module.exports = function(options) {
 
     return new sitemap(options);
 };
+
+/*
+ * class
+ */
 /**
  * sitemap class
  * 
@@ -266,8 +269,7 @@ sitemap.prototype.toFile = function() {
  */
 sitemap.prototype.XMLtoWeb = function(res) {
 
-    res.header('Content-Type','application/xml');
-    return stream(this.xml(),res);
+    return stream(this.xml(),res,'application/xml');
 };
 /**
  * alias for stream robots.txt to web
@@ -278,6 +280,5 @@ sitemap.prototype.XMLtoWeb = function(res) {
  */
 sitemap.prototype.TXTtoWeb = function(res) {
 
-    res.header('Content-Type','text/plain');
-    return stream(this.robots(),res);
+    return stream(this.robots(),res,'text/plain');
 };
