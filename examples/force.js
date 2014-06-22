@@ -25,15 +25,24 @@ try {
  */
 sitemap({
     sitemap: 'force.xml',
+    robots: 'force.txt',
     map: {
-        '/pippo': ['get'],
-        '/pluto': ['get','post'],
+        '/foo': ['get'],
+        '/foo2': ['get','post'],
+        '/admin': ['get'],
+        '/backdoor': [],
     },
     route: {
-        '/pippo': {
+        '/foo': {
             lastmod: '2014-06-19',
             changefreq: 'always',
             priority: 1.0,
         },
+        '/admin': {
+            disallow: true,
+        },
+        '/backdoor': {
+            hide: true,
+        },
     },
-}).XMLtoFile();
+}).toFile();

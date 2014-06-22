@@ -170,7 +170,7 @@ sitemap.prototype.xml = function() {
     data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     for ( var uri in sitemap) {
         var rr = route['ALL'] || route[uri] || false;
-        if (!rr || !rr.disallow) {
+        if (!rr || (!rr.disallow && !rr.hide)) {
             data += '<url>';
             data += '<loc>';
             data += this.my.url;
@@ -212,11 +212,12 @@ sitemap.prototype.robots = function() {
     var sitemap = this.map;
     var data = 'User-agent: *\n';
     for ( var uri in sitemap) {
-        if (route['ALL'] && route['ALL'].disallow) {
+        var rr = route[uri];
+        if (route['ALL'] && route['ALL'].disallow && !route['ALL'].hide) {
             temp = false;
             data += 'Disallow: /\n';
             break;
-        } else if (route[uri] && route[uri].disallow) {
+        } else if (rr && rr.disallow && !rr.hide) {
             temp = false;
             data += 'Disallow: ';
             data += uri;

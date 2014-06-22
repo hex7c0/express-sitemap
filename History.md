@@ -3,6 +3,7 @@ v1.2.1 / 2014-06-22
 
   * Doc update
   * `toWeb()` fix
+  * Add `hide` var to `route` option
 
 v1.2.0 / 2014-06-21
 ==================

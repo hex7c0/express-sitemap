@@ -30,31 +30,46 @@ var sitemap = require('express-sitemap');
 
 sitemap({
     map: {
-        '/pippo': ['get'],
-        '/pluto': ['get','post'],
+        '/foo': ['get'],
+        '/foo2': ['get','post'],
+        '/admin': ['get'],
+        '/backdoor': [],
     },
     route: {
-        '/pippo': {
+        '/foo': {
             lastmod: '2014-06-20',
             changefreq: 'always',
             priority: 1.0,
         },
+        '/admin': {
+            disallow: true,
+        },
+        '/backdoor': {
+            hide: true,
+        },
     },
 }).XMLtoFile();
 ```
-this is sitemap.xml
+
+and this will be sitemap.xml
 ```xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://127.0.0.1/pippo</loc>
+        <loc>http://127.0.0.1/foo</loc>
         <lastmod>2014-06-19</lastmod>
         <changefreq>always</changefreq>
         <priority>1</priority>
     </url>
     <url>
-        <loc>http://127.0.0.1/pluto</loc>
+        <loc>http://127.0.0.1/foo2</loc>
     </url>
 </urlset>
+```
+
+and this will be robots.txt
+```txt
+User-agent: *
+Disallow: /admin
 ```
 
 ### methods
