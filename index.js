@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.2.1
+ * @version 1.2.2
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -62,23 +62,25 @@ function stream(data,res,header) {
  * export class
  * 
  * @exports sitemap
+ * @function sitemap
+ * @return {SITEMAP}
  */
-module.exports = function(options) {
+module.exports = function sitemap(options) {
 
-    return new sitemap(options);
+    return new SITEMAP(options);
 };
 
 /*
  * class
  */
 /**
- * sitemap class
+ * SITEMAP class
  * 
- * @class sitemap
+ * @class SITEMAP
  * @param {Object} options - various options. Check README.md
  * @return {Object}
  */
-function sitemap(options) {
+function SITEMAP(options) {
 
     options = options || {};
     var http = options.http == 'https' ? 'https://' : 'http://';
@@ -88,9 +90,11 @@ function sitemap(options) {
         url: http + url + port,
         sitemap: String(options.sitemap || 'sitemap.xml'),
         robots: String(options.robots || 'robots.txt'),
-        route: typeof (options.route) == 'object' ? options.route : Object.create(null),
+        route: typeof (options.route) == 'object' ? options.route : Object
+                .create(null),
     };
-    this.map = typeof (options.map) == 'object' ? options.map : Object.create(null);
+    this.map = typeof (options.map) == 'object' ? options.map : Object
+            .create(null);
     if (options.generate && options.generate._router) {
         this.generate(options.generate);
     }
@@ -103,7 +107,7 @@ function sitemap(options) {
  * @param {Object} app - express app
  * @return {Object}
  */
-sitemap.prototype.generate = function(app) {
+SITEMAP.prototype.generate = function(app) {
 
     var that = this.map;
     var routing = app._router.stack;
@@ -132,7 +136,7 @@ sitemap.prototype.generate = function(app) {
  * @function tickle
  * @return {Object}
  */
-sitemap.prototype.tickle = function() {
+SITEMAP.prototype.tickle = function() {
 
     if (GLOBAL.tickle && GLOBAL.tickle.route) {
         var that = this.map;
@@ -150,7 +154,7 @@ sitemap.prototype.tickle = function() {
  * @function reset
  * @return
  */
-sitemap.prototype.reset = function() {
+SITEMAP.prototype.reset = function() {
 
     this.map = Object.create(null);
     return;
@@ -161,7 +165,7 @@ sitemap.prototype.reset = function() {
  * @function xml
  * @return {String}
  */
-sitemap.prototype.xml = function() {
+SITEMAP.prototype.xml = function() {
 
     var temp = null;
     var route = this.my.route;
@@ -205,7 +209,7 @@ sitemap.prototype.xml = function() {
  * @function robots
  * @return {String}
  */
-sitemap.prototype.robots = function() {
+SITEMAP.prototype.robots = function() {
 
     var temp = true;
     var route = this.my.route;
@@ -235,7 +239,7 @@ sitemap.prototype.robots = function() {
  * @function XMLtoFile
  * @return
  */
-sitemap.prototype.XMLtoFile = function() {
+SITEMAP.prototype.XMLtoFile = function() {
 
     return write(this.xml(),this.my.sitemap);
 };
@@ -245,7 +249,7 @@ sitemap.prototype.XMLtoFile = function() {
  * @function TXTtoFile
  * @return
  */
-sitemap.prototype.TXTtoFile = function() {
+SITEMAP.prototype.TXTtoFile = function() {
 
     return write(this.robots(),this.my.robots);
 };
@@ -255,7 +259,7 @@ sitemap.prototype.TXTtoFile = function() {
  * @function toFile
  * @return
  */
-sitemap.prototype.toFile = function() {
+SITEMAP.prototype.toFile = function() {
 
     write(this.xml(),this.my.sitemap);
     write(this.robots(),this.my.robots);
@@ -268,7 +272,7 @@ sitemap.prototype.toFile = function() {
  * @param {Object} res - response to client
  * @return
  */
-sitemap.prototype.XMLtoWeb = function(res) {
+SITEMAP.prototype.XMLtoWeb = function(res) {
 
     return stream(this.xml(),res,'application/xml');
 };
@@ -279,7 +283,7 @@ sitemap.prototype.XMLtoWeb = function(res) {
  * @param {Object} res - response to client
  * @return
  */
-sitemap.prototype.TXTtoWeb = function(res) {
+SITEMAP.prototype.TXTtoWeb = function(res) {
 
     return stream(this.robots(),res,'text/plain');
 };
