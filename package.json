@@ -1,7 +1,7 @@
 {
   "name": "express-sitemap",
   "version": "1.2.2",
-  "description": "sitemap and robots for expressjs 4",
+  "description": "sitemap and robots for expressjs",
   "main": "index.js",
   "repository": {
     "type": "git",
