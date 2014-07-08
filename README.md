@@ -24,6 +24,8 @@ var app = require('express')();
 sitemap.generate(app);
 ```
 
+### methods
+
 if you want generate your own url
 ```js
 var sitemap = require('express-sitemap');
