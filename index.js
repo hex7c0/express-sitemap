@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.2.2
+ * @version 1.2.3
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -42,6 +42,7 @@ function write(data,file) {
         return;
     });
 }
+
 /**
  * stream data to web
  * 
@@ -58,6 +59,7 @@ function stream(data,res,header) {
     re.send(data);
     return;
 }
+
 /**
  * export class
  * 
@@ -82,7 +84,7 @@ module.exports = function sitemap(options) {
  */
 function SITEMAP(options) {
 
-    options = options || {};
+    options = options || Object.create(null);
     var http = options.http == 'https' ? 'https://' : 'http://';
     var url = String(options.url || '127.0.0.1');
     var port = Number(options.port) ? ':' + Number(options.port) : '';
