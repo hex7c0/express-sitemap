@@ -1,0 +1,28 @@
+{
+    "tags": {
+        "allowUnknownTags": true
+    },
+    "source": {
+        "include": [ "index.js" ],
+        "exclude": [ "index.min.js", "Gruntfile.js", "./node_modules" ],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "destination": "./doc/",
+        "recurse": true,
+        "lenient": true
+    },
+    "plugins": [ "plugins/markdown" ],
+    "templates": {
+        "cleverLinks": false,
+        "monospaceLinks": false,
+        "default": {
+            "outputSourceFiles": true
+        }
+    },
+    "markdown": {
+        "parser": "gfm",
+        "hardwrap": true
+    }
+}
