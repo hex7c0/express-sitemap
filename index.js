@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.2.3
+ * @version 1.3.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -15,7 +15,7 @@
  */
 // import
 try {
-    var FS = require('fs');
+    var fs = require('fs');
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
     process.exit(1);
@@ -30,11 +30,10 @@ try {
  * @function write
  * @param {String} data - created xml or robots.txt
  * @param {String} file - name of file
- * @return
  */
 function write(data,file) {
 
-    return FS.writeFile(file,data,function(err) {
+    return fs.writeFile(file,data,function(err) {
 
         if (err) {
             console.error(err);
@@ -50,7 +49,6 @@ function write(data,file) {
  * @param {String} data - created xml or robots.txt
  * @param {Object} res - response to client
  * @param {String} header - send header to client
- * @return
  */
 function stream(data,res,header) {
 
@@ -154,7 +152,6 @@ SITEMAP.prototype.tickle = function() {
  * reset
  * 
  * @function reset
- * @return
  */
 SITEMAP.prototype.reset = function() {
 
@@ -239,7 +236,6 @@ SITEMAP.prototype.robots = function() {
  * alias for write sitemap to file
  * 
  * @function XMLtoFile
- * @return
  */
 SITEMAP.prototype.XMLtoFile = function() {
 
@@ -249,7 +245,6 @@ SITEMAP.prototype.XMLtoFile = function() {
  * alias for write robots.txt to file
  * 
  * @function TXTtoFile
- * @return
  */
 SITEMAP.prototype.TXTtoFile = function() {
 
@@ -259,7 +254,6 @@ SITEMAP.prototype.TXTtoFile = function() {
  * alias for write both to files
  * 
  * @function toFile
- * @return
  */
 SITEMAP.prototype.toFile = function() {
 
@@ -272,7 +266,6 @@ SITEMAP.prototype.toFile = function() {
  * 
  * @function XMLtoWeb
  * @param {Object} res - response to client
- * @return
  */
 SITEMAP.prototype.XMLtoWeb = function(res) {
 
@@ -283,7 +276,6 @@ SITEMAP.prototype.XMLtoWeb = function(res) {
  * 
  * @function TXTtoWeb
  * @param {Object} res - response to client
- * @return
  */
 SITEMAP.prototype.TXTtoWeb = function(res) {
 
