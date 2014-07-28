@@ -14,7 +14,7 @@
  */
 // import
 try {
-    var sitemap = require('../index.js'); // use require('express-sitemap') instead
+    var sitemap = require('../index.min.js'); // use require('express-sitemap') instead
     var app = require('express')();
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);

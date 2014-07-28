@@ -14,9 +14,10 @@
  */
 // import
 try {
-    var sitemap = require('../index.js'); // use require('express-sitemap') instead
-    var father = require('express')();
-    var child = require('express')();
+    var sitemap = require('../index.min.js'); // use require('express-sitemap') instead
+    var express = require('express');
+    var father = express();
+    var child = express();
     var tickle = require('tickle');
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
