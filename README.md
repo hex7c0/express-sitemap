@@ -1,6 +1,9 @@
-#express-sitemap [![Build Status](https://travis-ci.org/hex7c0/express-sitemap.svg?branch=master)](https://travis-ci.org/hex7c0/express-sitemap) [![NPM version](https://badge.fury.io/js/express-sitemap.svg)](http://badge.fury.io/js/express-sitemap)
+# [express-sitemap](https://github.com/hex7c0/express-sitemap)
+[![NPM version](https://badge.fury.io/js/express-sitemap.svg)](http://badge.fury.io/js/express-sitemap)
+[![Build Status](https://travis-ci.org/hex7c0/express-sitemap.svg?branch=master)](https://travis-ci.org/hex7c0/express-sitemap)
+[![devDependency Status](https://david-dm.org/hex7c0/express-sitemap/dev-status.svg)](https://david-dm.org/hex7c0/express-sitemap#info=devDependencies)
 
-sitemap and robots for [expressjs 4](http://expressjs.com/)
+Sitemap and Robots for [expressjs 4](http://expressjs.com/)
 
 ## Installation
 
@@ -52,7 +55,6 @@ sitemap({
     },
 }).XMLtoFile();
 ```
-
 and this will be sitemap.xml
 ```xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -67,7 +69,6 @@ and this will be sitemap.xml
     </url>
 </urlset>
 ```
-
 and this will be robots.txt
 ```txt
 User-agent: *
@@ -80,43 +81,38 @@ reset prototype Object for sitemap
 ```js
 sitemap.reset();
 ```
-
 generate prototype Object for sitemap
 ```js
 sitemap.generate(app);
 ```
-
 generate prototype Object for sitemap if you use middleware or dynamic building
 ```js
 sitemap.tickle();
 ```
-
 write sitemap Object to file
 ```js
 sitemap.XMLtoFile();
 ```
-
 write robots.txt to file
 ```js
 sitemap.TXTtoFile();
 ```
-
 write both to files
 ```js
 sitemap.toFile();
 ```
-
 stream sitemap to web
 ```js
 sitemap.XMLtoWeb(res);
 ```
-
 stream robots.txt to web
 ```js
 sitemap.TXTtoWeb(res);
 ```
 
 ### sitemap(options)
+
+#### options
 
  - `http` - **String** Website HTTP protocol (http | https) *(default "http")*
  - `url` - **String** Website URL *(default "127.0.0.1")*
