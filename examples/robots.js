@@ -62,13 +62,12 @@ app.all('/all',function(req,res) {
 /*
  * sitemap
  */
-sitemap = sitemap({
+sitemap({
+    robots: './robots/robots.txt',
     route: {
         'ALL': {
             disallow: true,
         }
     },
-});
-sitemap.generate(app);
-sitemap.TXTtoFile();
+}).TXTtoFile();
 console.log('file wrote');
