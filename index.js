@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.3.0
+ * @version 1.3.1
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -16,6 +16,7 @@
 // import
 try {
     var fs = require('fs');
+    var resolve = require('path').resolve;
 } catch (MODULE_NOT_FOUND) {
     console.error(MODULE_NOT_FOUND);
     process.exit(1);
@@ -93,6 +94,8 @@ function SITEMAP(options) {
         route: typeof (options.route) == 'object' ? options.route : Object
                 .create(null),
     };
+    this.my.sitemap = resolve(this.my.sitemap);
+    this.my.robots = resolve(this.my.robots);
     this.map = typeof (options.map) == 'object' ? options.map : Object
             .create(null);
     if (options.generate && options.generate._router) {

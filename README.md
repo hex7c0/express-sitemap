@@ -16,6 +16,10 @@ or
 ```
 git clone git://github.com/hex7c0/express-sitemap.git
 ```
+or
+```
+http://supergiovane.tk/#/express-sitemap
+```
 
 ## API
 
