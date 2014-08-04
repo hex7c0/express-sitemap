@@ -1,5 +1,6 @@
 .git*
 .project
+.jshintrc
 .jsdoc.json
 .settings
 .travis.yml
