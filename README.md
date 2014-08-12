@@ -1,24 +1,21 @@
-# [express-sitemap](https://github.com/hex7c0/express-sitemap)
+# [express-sitemap](http://supergiovane.tk/#/express-sitemap)
+
 [![NPM version](https://badge.fury.io/js/express-sitemap.svg)](http://badge.fury.io/js/express-sitemap)
 [![Build Status](https://travis-ci.org/hex7c0/express-sitemap.svg?branch=master)](https://travis-ci.org/hex7c0/express-sitemap)
 [![devDependency Status](https://david-dm.org/hex7c0/express-sitemap/dev-status.svg)](https://david-dm.org/hex7c0/express-sitemap#info=devDependencies)
 
-Sitemap and Robots for [expressjs 4](http://expressjs.com/)
+Sitemap and Robots for [expressjs](http://expressjs.com/)
 
 ## Installation
 
 Install through NPM
 
-```
+```bash
 npm install express-sitemap
 ```
 or
-```
+```bash
 git clone git://github.com/hex7c0/express-sitemap.git
-```
-or
-```
-http://supergiovane.tk/#/express-sitemap
 ```
 
 ## API
@@ -31,7 +28,7 @@ var app = require('express')();
 sitemap.generate(app);
 ```
 
-### methods
+### Methods
 
 if you want generate your own url
 ```js
@@ -59,6 +56,7 @@ sitemap({
     },
 }).XMLtoFile();
 ```
+
 and this will be sitemap.xml
 ```xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -73,13 +71,12 @@ and this will be sitemap.xml
     </url>
 </urlset>
 ```
+
 and this will be robots.txt
 ```txt
 User-agent: *
 Disallow: /admin
 ```
-
-### methods
 
 reset prototype Object for sitemap
 ```js
@@ -133,13 +130,10 @@ sitemap.TXTtoWeb(res);
 
 you can use ```route:{'ALL': {}}``` if you want propagate extra information to all your urls
 
-#### Examples
+## Examples
 
 Take a look at my [examples](https://github.com/hex7c0/express-sitemap/tree/master/examples)
 
 _Middleware is incompatible http://expressjs.com/4x/api.html#app.use, you can use [tickle](https://github.com/hex7c0/tickle)_
 
-## License
-Copyright (c) 2014 hex7c0
-
-Licensed under the GPLv3 license
+### [License GPLv3](http://opensource.org/licenses/GPL-3.0)
