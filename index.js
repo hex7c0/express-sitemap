@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.3.1
+ * @version 1.3.4
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -32,9 +32,9 @@ try {
  * @param {String} data - created xml or robots.txt
  * @param {String} file - name of file
  */
-function write(data,file) {
+function write(data, file) {
 
-    return fs.writeFile(file,data,function(err) {
+    return fs.writeFile(file, data, function(err) {
 
         if (err) {
             console.error(err);
@@ -51,10 +51,10 @@ function write(data,file) {
  * @param {Object} res - response to client
  * @param {String} header - send header to client
  */
-function stream(data,res,header) {
+function stream(data, res, header) {
 
     var re = res.res || res;
-    re.header('Content-Type',header);
+    re.header('Content-Type', header);
     re.send(data);
     return;
 }
@@ -83,23 +83,21 @@ module.exports = function sitemap(options) {
  */
 function SITEMAP(options) {
 
-    options = options || Object.create(null);
-    var http = options.http == 'https' ? 'https://' : 'http://';
-    var url = String(options.url || '127.0.0.1');
-    var port = Number(options.port) ? ':' + Number(options.port) : '';
+    var opt = options || Object.create(null);
+    var http = opt.http == 'https' ? 'https://' : 'http://';
+    var url = String(opt.url || '127.0.0.1');
+    var port = Number(opt.port) ? ':' + Number(opt.port) : '';
     this.my = {
         url: http + url + port,
-        sitemap: String(options.sitemap || 'sitemap.xml'),
-        robots: String(options.robots || 'robots.txt'),
-        route: typeof (options.route) == 'object' ? options.route : Object
-                .create(null),
+        sitemap: String(opt.sitemap || 'sitemap.xml'),
+        robots: String(opt.robots || 'robots.txt'),
+        route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
     };
     this.my.sitemap = resolve(this.my.sitemap);
     this.my.robots = resolve(this.my.robots);
-    this.map = typeof (options.map) == 'object' ? options.map : Object
-            .create(null);
-    if (options.generate && options.generate._router) {
-        this.generate(options.generate);
+    this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
+    if (opt.generate && opt.generate._router) {
+        this.generate(opt.generate);
     }
     return;
 }
@@ -119,16 +117,8 @@ SITEMAP.prototype.generate = function(app) {
         if (route) {
             var path = route.path;
             if (route.methods.get) {
-                that[path] = ['get'];
+                that[path] = [ 'get' ];
             }
-            // if (that[path] == undefined) {
-            // that[path] = [];
-            // }
-            // for ( var name in route.methods) {
-            // if (that[path].indexOf(name) < 0) {
-            // that[path].push(name);
-            // }
-            // }
         }
     }
     return that;
@@ -242,7 +232,7 @@ SITEMAP.prototype.robots = function() {
  */
 SITEMAP.prototype.XMLtoFile = function() {
 
-    return write(this.xml(),this.my.sitemap);
+    return write(this.xml(), this.my.sitemap);
 };
 /**
  * alias for write robots.txt to file
@@ -251,7 +241,7 @@ SITEMAP.prototype.XMLtoFile = function() {
  */
 SITEMAP.prototype.TXTtoFile = function() {
 
-    return write(this.robots(),this.my.robots);
+    return write(this.robots(), this.my.robots);
 };
 /**
  * alias for write both to files
@@ -260,8 +250,8 @@ SITEMAP.prototype.TXTtoFile = function() {
  */
 SITEMAP.prototype.toFile = function() {
 
-    write(this.xml(),this.my.sitemap);
-    write(this.robots(),this.my.robots);
+    write(this.xml(), this.my.sitemap);
+    write(this.robots(), this.my.robots);
     return;
 };
 /**
@@ -272,7 +262,7 @@ SITEMAP.prototype.toFile = function() {
  */
 SITEMAP.prototype.XMLtoWeb = function(res) {
 
-    return stream(this.xml(),res,'application/xml');
+    return stream(this.xml(), res, 'application/xml');
 };
 /**
  * alias for stream robots.txt to web
@@ -282,5 +272,5 @@ SITEMAP.prototype.XMLtoWeb = function(res) {
  */
 SITEMAP.prototype.TXTtoWeb = function(res) {
 
-    return stream(this.robots(),res,'text/plain');
+    return stream(this.robots(), res, 'text/plain');
 };
