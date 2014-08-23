@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/express-sitemap.svg)](http://badge.fury.io/js/express-sitemap)
 [![Build Status](https://travis-ci.org/hex7c0/express-sitemap.svg?branch=master)](https://travis-ci.org/hex7c0/express-sitemap)
-[![devDependency Status](https://david-dm.org/hex7c0/express-sitemap/dev-status.svg)](https://david-dm.org/hex7c0/express-sitemap#info=devDependencies)
+[![Dependency Status](https://david-dm.org/hex7c0/express-sitemap/status.svg)](https://david-dm.org/hex7c0/express-sitemap)
 
 Sitemap and Robots for [expressjs](http://expressjs.com/)
 
