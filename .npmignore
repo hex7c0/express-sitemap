@@ -5,9 +5,16 @@
 .settings
 .travis.yml
 .DS_Store
+
 index.js
 Gruntfile.js
+bower.json
+
 examples/
 module/
 lib/
 test/
+
+node_modules/
+bower_components/
+
