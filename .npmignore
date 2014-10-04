@@ -6,7 +6,8 @@
 .travis.yml
 .DS_Store
 
-index.js
+*.log
+
 Gruntfile.js
 bower.json
 

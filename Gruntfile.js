@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @file gruntfile
  * @subpackage main
@@ -20,17 +20,16 @@ module.exports = function(grunt) {
 
         uglify: {
             options: {
-                preserveComments: 'false',
-                banner: '<%= banner %>'
+                preserveComments: 'false'
             },
             target: {
                 files: [ {
                     expand: true,
-                    src: 'lib/*.js',
+                    src: 'lib/**/*.js',
                     dest: 'min'
                 }, {
                     expand: true,
-                    src: 'module/*.js',
+                    src: 'module/**/*.js',
                     dest: 'min'
                 }, {
                     'index.min.js': 'index.js'
@@ -62,11 +61,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-endline');
-    grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('min', [ 'clean', 'uglify', 'endline' ]);
-    grunt.registerTask('doc', [ 'shell' ]);
-    grunt.registerTask('default', [ 'min', 'doc' ]);
 
     return;
 };
