@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @file web example
  * @module express-sitemap
