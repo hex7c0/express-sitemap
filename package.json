@@ -1,5 +1,5 @@
 {
-  "version": "1.3.5",
+  "version": "1.3.6",
   "name": "express-sitemap",
   "description": "sitemap and robots for expressjs",
   "keywords": [
@@ -23,24 +23,20 @@
     "url": "https://github.com/hex7c0/express-sitemap/issues",
     "email": "hex7c0@gmail.com"
   },
-  "directories":{
-    "doc":"./doc"
-  },
   "main": "index.min.js",
   "dependencies": {
-    "tickle": "1.1.5"
+    "tickle": "1.1.6"
   },
   "devDependencies": {
-    "express": "~4.8.5",
-    "mocha": "~1.21.4",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-uglify": "~0.5.1",
-    "grunt-endline": "~0.2.0",
-    "grunt-shell": "~1.0.1",
-    "supertest": "~0.13.0"
+    "express": "~4.9",
+    "mocha": "~1.21",
+    "grunt-contrib-clean": "~0.6",
+    "grunt-contrib-uglify": "~0.6",
+    "grunt-endline": "~0.2",
+    "supertest": "~0.13"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": "^0.10"
   },
   "scripts": {
     "prepublish": "npm prune",
