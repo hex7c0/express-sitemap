@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.3.4
+ * @version 1.3.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -66,10 +66,11 @@ function stream(data, res, header) {
  * @function sitemap
  * @return {SITEMAP}
  */
-module.exports = function sitemap(options) {
+function sitemap(options) {
 
     return new SITEMAP(options);
-};
+}
+module.exports = sitemap;
 
 /*
  * class
@@ -159,13 +160,12 @@ SITEMAP.prototype.reset = function() {
  */
 SITEMAP.prototype.xml = function() {
 
-    var temp = null;
     var route = this.my.route;
     var sitemap = this.map;
     var data = '<?xml version="1.0" encoding="UTF-8"?>';
     data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
     for ( var uri in sitemap) {
-        var rr = route['ALL'] || route[uri] || false;
+        var rr = route.ALL || route[uri] || false;
         if (!rr || (!rr.disallow && !rr.hide)) {
             data += '<url>';
             data += '<loc>';
@@ -173,19 +173,19 @@ SITEMAP.prototype.xml = function() {
             data += uri;
             data += '</loc>';
             if (rr) {
-                if (temp = rr.lastmod) {
+                if (rr.lastmod) {
                     data += '<lastmod>';
-                    data += temp;
+                    data += rr.lastmod;
                     data += '</lastmod>';
                 }
-                if (temp = rr.changefreq) {
+                if (rr.changefreq) {
                     data += '<changefreq>';
-                    data += temp;
+                    data += rr.changefreq;
                     data += '</changefreq>';
                 }
-                if (temp = rr.priority) {
+                if (rr.priority) {
                     data += '<priority>';
-                    data += temp;
+                    data += rr.priority;
                     data += '</priority>';
                 }
             }
@@ -209,7 +209,7 @@ SITEMAP.prototype.robots = function() {
     var data = 'User-agent: *\n';
     for ( var uri in sitemap) {
         var rr = route[uri];
-        if (route['ALL'] && route['ALL'].disallow && !route['ALL'].hide) {
+        if (route.ALL && route.ALL.disallow && !route.ALL.hide) {
             temp = false;
             data += 'Disallow: /\n';
             break;
