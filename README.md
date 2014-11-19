@@ -82,30 +82,37 @@ reset prototype Object for sitemap
 ```js
 sitemap.reset();
 ```
+
 generate prototype Object for sitemap
 ```js
 sitemap.generate(app);
 ```
+
 generate prototype Object for sitemap if you use middleware or dynamic building
 ```js
 sitemap.tickle();
 ```
+
 write sitemap Object to file
 ```js
 sitemap.XMLtoFile();
 ```
+
 write robots.txt to file
 ```js
 sitemap.TXTtoFile();
 ```
+
 write both to files
 ```js
 sitemap.toFile();
 ```
+
 stream sitemap to web
 ```js
 sitemap.XMLtoWeb(res);
 ```
+
 stream robots.txt to web
 ```js
 sitemap.TXTtoWeb(res);
