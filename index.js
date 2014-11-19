@@ -87,7 +87,7 @@ function SITEMAP(options) {
   var opt = options || Object.create(null);
   var http = opt.http == 'https' ? 'https://' : 'http://';
   var url = String(opt.url || '127.0.0.1');
-  var port = Number(opt.port) ? ':' + Number(opt.port) : '';
+  var port = isNaN(opt.port) ? '' : ':' + Number(opt.port);
   this.my = {
     url: http + url + port,
     sitemap: String(opt.sitemap || 'sitemap.xml'),
@@ -107,22 +107,18 @@ function SITEMAP(options) {
  * 
  * @function generate
  * @param {Object} app - express app
- * @return {Object}
  */
 SITEMAP.prototype.generate = function(app) {
 
-  var that = this.map;
   var routing = app._router.stack;
-  for (var i = 0, il = routing.length; i < il; i++) {
+  for (var i = 0, ii = routing.length; i < ii; i++) {
     var route = routing[i].route;
-    if (route) {
-      var path = route.path;
-      if (route.methods.get) {
-        that[path] = [ 'get' ];
-      }
+    if (route !== undefined && route.methods !== undefined
+        && route.methods.get !== undefined) {
+      this.map[route.path] = [ 'get' ];
     }
   }
-  return that;
+  return this.map;
 };
 /**
  * generate sitemap object with tickle
@@ -132,9 +128,9 @@ SITEMAP.prototype.generate = function(app) {
  */
 SITEMAP.prototype.tickle = function() {
 
-  if (GLOBAL.tickle && GLOBAL.tickle.route) {
+  if (global.tickle && global.tickle.route) {
     var that = this.map;
-    var routing = GLOBAL.tickle.route;
+    var routing = global.tickle.route;
     for ( var route in routing) {
       that[route] = [];
     }
