@@ -14,7 +14,7 @@
  */
 // import
 try {
-  var sitemap = require('../index.min.js'); // use require('express-sitemap')
+  var sitemap = require('..');
   // instead
   var app = require('express')();
   var assert = require('assert');

@@ -14,7 +14,7 @@
  */
 // import
 try {
-  var sitemap = require('..'); // use require('express-sitemap')
+  var sitemap = require('..');
   // instead
   var app = require('express')();
   var assert = require('assert');
@@ -68,6 +68,15 @@ describe('generate', function() {
     assert.equal(s.map['/'][0], 'get');
     assert.equal(s.map['/a'][0], 'get');
     assert.deepEqual(s.map, m);
+    assert.deepEqual(s.map, g);
+    done();
+  });
+  it('should return "map" Object after `reset()`', function(done) {
+
+    var g = s.reset();
+
+    assert.equal(typeof s.map, 'object');
+    assert.equal(Object.keys(s.map).length, 0);
     assert.deepEqual(s.map, g);
     done();
   });
