@@ -15,11 +15,11 @@
  */
 // import
 try {
-    var fs = require('fs');
-    var resolve = require('path').resolve;
+  var fs = require('fs');
+  var resolve = require('path').resolve;
 } catch (MODULE_NOT_FOUND) {
-    console.error(MODULE_NOT_FOUND);
-    process.exit(1);
+  console.error(MODULE_NOT_FOUND);
+  process.exit(1);
 }
 
 /*
@@ -34,13 +34,13 @@ try {
  */
 function write(data, file) {
 
-    return fs.writeFile(file, data, function(err) {
+  return fs.writeFile(file, data, function(err) {
 
-        if (err) {
-            console.error(err);
-        }
-        return;
-    });
+    if (err) {
+      console.error(err);
+    }
+    return;
+  });
 }
 
 /**
@@ -53,10 +53,10 @@ function write(data, file) {
  */
 function stream(data, res, header) {
 
-    var re = res.res || res;
-    re.header('Content-Type', header);
-    re.send(data);
-    return;
+  var re = res.res || res;
+  re.header('Content-Type', header);
+  re.send(data);
+  return;
 }
 
 /**
@@ -68,7 +68,7 @@ function stream(data, res, header) {
  */
 function sitemap(options) {
 
-    return new SITEMAP(options);
+  return new SITEMAP(options);
 }
 module.exports = sitemap;
 
@@ -84,23 +84,23 @@ module.exports = sitemap;
  */
 function SITEMAP(options) {
 
-    var opt = options || Object.create(null);
-    var http = opt.http == 'https' ? 'https://' : 'http://';
-    var url = String(opt.url || '127.0.0.1');
-    var port = Number(opt.port) ? ':' + Number(opt.port) : '';
-    this.my = {
-        url: http + url + port,
-        sitemap: String(opt.sitemap || 'sitemap.xml'),
-        robots: String(opt.robots || 'robots.txt'),
-        route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
-    };
-    this.my.sitemap = resolve(this.my.sitemap);
-    this.my.robots = resolve(this.my.robots);
-    this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
-    if (opt.generate && opt.generate._router) {
-        this.generate(opt.generate);
-    }
-    return;
+  var opt = options || Object.create(null);
+  var http = opt.http == 'https' ? 'https://' : 'http://';
+  var url = String(opt.url || '127.0.0.1');
+  var port = Number(opt.port) ? ':' + Number(opt.port) : '';
+  this.my = {
+    url: http + url + port,
+    sitemap: String(opt.sitemap || 'sitemap.xml'),
+    robots: String(opt.robots || 'robots.txt'),
+    route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
+  };
+  this.my.sitemap = resolve(this.my.sitemap);
+  this.my.robots = resolve(this.my.robots);
+  this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
+  if (opt.generate && opt.generate._router) {
+    this.generate(opt.generate);
+  }
+  return;
 }
 /**
  * generate sitemap object
@@ -111,18 +111,18 @@ function SITEMAP(options) {
  */
 SITEMAP.prototype.generate = function(app) {
 
-    var that = this.map;
-    var routing = app._router.stack;
-    for (var i = 0, il = routing.length; i < il; i++) {
-        var route = routing[i].route;
-        if (route) {
-            var path = route.path;
-            if (route.methods.get) {
-                that[path] = [ 'get' ];
-            }
-        }
+  var that = this.map;
+  var routing = app._router.stack;
+  for (var i = 0, il = routing.length; i < il; i++) {
+    var route = routing[i].route;
+    if (route) {
+      var path = route.path;
+      if (route.methods.get) {
+        that[path] = [ 'get' ];
+      }
     }
-    return that;
+  }
+  return that;
 };
 /**
  * generate sitemap object with tickle
@@ -132,15 +132,15 @@ SITEMAP.prototype.generate = function(app) {
  */
 SITEMAP.prototype.tickle = function() {
 
-    if (GLOBAL.tickle && GLOBAL.tickle.route) {
-        var that = this.map;
-        var routing = GLOBAL.tickle.route;
-        for ( var route in routing) {
-            that[route] = [];
-        }
-        return that;
+  if (GLOBAL.tickle && GLOBAL.tickle.route) {
+    var that = this.map;
+    var routing = GLOBAL.tickle.route;
+    for ( var route in routing) {
+      that[route] = [];
     }
-    return Object.create(null);
+    return that;
+  }
+  return Object.create(null);
 };
 /**
  * reset
@@ -149,8 +149,8 @@ SITEMAP.prototype.tickle = function() {
  */
 SITEMAP.prototype.reset = function() {
 
-    this.map = Object.create(null);
-    return;
+  this.map = Object.create(null);
+  return;
 };
 /**
  * create xml from sitemap
@@ -160,40 +160,40 @@ SITEMAP.prototype.reset = function() {
  */
 SITEMAP.prototype.xml = function() {
 
-    var route = this.my.route;
-    var sitemap = this.map;
-    var data = '<?xml version="1.0" encoding="UTF-8"?>';
-    data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
-    for ( var uri in sitemap) {
-        var rr = route.ALL || route[uri] || false;
-        if (!rr || (!rr.disallow && !rr.hide)) {
-            data += '<url>';
-            data += '<loc>';
-            data += this.my.url;
-            data += uri;
-            data += '</loc>';
-            if (rr) {
-                if (rr.lastmod) {
-                    data += '<lastmod>';
-                    data += rr.lastmod;
-                    data += '</lastmod>';
-                }
-                if (rr.changefreq) {
-                    data += '<changefreq>';
-                    data += rr.changefreq;
-                    data += '</changefreq>';
-                }
-                if (rr.priority) {
-                    data += '<priority>';
-                    data += rr.priority;
-                    data += '</priority>';
-                }
-            }
-            data += '</url>';
+  var route = this.my.route;
+  var sitemap = this.map;
+  var data = '<?xml version="1.0" encoding="UTF-8"?>';
+  data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  for ( var uri in sitemap) {
+    var rr = route.ALL || route[uri] || false;
+    if (!rr || (!rr.disallow && !rr.hide)) {
+      data += '<url>';
+      data += '<loc>';
+      data += this.my.url;
+      data += uri;
+      data += '</loc>';
+      if (rr) {
+        if (rr.lastmod) {
+          data += '<lastmod>';
+          data += rr.lastmod;
+          data += '</lastmod>';
         }
+        if (rr.changefreq) {
+          data += '<changefreq>';
+          data += rr.changefreq;
+          data += '</changefreq>';
+        }
+        if (rr.priority) {
+          data += '<priority>';
+          data += rr.priority;
+          data += '</priority>';
+        }
+      }
+      data += '</url>';
     }
-    data += '</urlset>';
-    return data;
+  }
+  data += '</urlset>';
+  return data;
 };
 /**
  * create robots.txt from sitemap
@@ -203,27 +203,27 @@ SITEMAP.prototype.xml = function() {
  */
 SITEMAP.prototype.robots = function() {
 
-    var temp = true;
-    var route = this.my.route;
-    var sitemap = this.map;
-    var data = 'User-agent: *\n';
-    for ( var uri in sitemap) {
-        var rr = route[uri];
-        if (route.ALL && route.ALL.disallow && !route.ALL.hide) {
-            temp = false;
-            data += 'Disallow: /\n';
-            break;
-        } else if (rr && rr.disallow && !rr.hide) {
-            temp = false;
-            data += 'Disallow: ';
-            data += uri;
-            data += '\n';
-        }
+  var temp = true;
+  var route = this.my.route;
+  var sitemap = this.map;
+  var data = 'User-agent: *\n';
+  for ( var uri in sitemap) {
+    var rr = route[uri];
+    if (route.ALL && route.ALL.disallow && !route.ALL.hide) {
+      temp = false;
+      data += 'Disallow: /\n';
+      break;
+    } else if (rr && rr.disallow && !rr.hide) {
+      temp = false;
+      data += 'Disallow: ';
+      data += uri;
+      data += '\n';
     }
-    if (temp) {
-        data += 'Disallow: \n';
-    }
-    return data;
+  }
+  if (temp) {
+    data += 'Disallow: \n';
+  }
+  return data;
 };
 /**
  * alias for write sitemap to file
@@ -232,7 +232,7 @@ SITEMAP.prototype.robots = function() {
  */
 SITEMAP.prototype.XMLtoFile = function() {
 
-    return write(this.xml(), this.my.sitemap);
+  return write(this.xml(), this.my.sitemap);
 };
 /**
  * alias for write robots.txt to file
@@ -241,7 +241,7 @@ SITEMAP.prototype.XMLtoFile = function() {
  */
 SITEMAP.prototype.TXTtoFile = function() {
 
-    return write(this.robots(), this.my.robots);
+  return write(this.robots(), this.my.robots);
 };
 /**
  * alias for write both to files
@@ -250,9 +250,9 @@ SITEMAP.prototype.TXTtoFile = function() {
  */
 SITEMAP.prototype.toFile = function() {
 
-    write(this.xml(), this.my.sitemap);
-    write(this.robots(), this.my.robots);
-    return;
+  write(this.xml(), this.my.sitemap);
+  write(this.robots(), this.my.robots);
+  return;
 };
 /**
  * alias for stream sitemap to web
@@ -262,7 +262,7 @@ SITEMAP.prototype.toFile = function() {
  */
 SITEMAP.prototype.XMLtoWeb = function(res) {
 
-    return stream(this.xml(), res, 'application/xml');
+  return stream(this.xml(), res, 'application/xml');
 };
 /**
  * alias for stream robots.txt to web
@@ -272,5 +272,5 @@ SITEMAP.prototype.XMLtoWeb = function(res) {
  */
 SITEMAP.prototype.TXTtoWeb = function(res) {
 
-    return stream(this.robots(), res, 'text/plain');
+  return stream(this.robots(), res, 'text/plain');
 };
