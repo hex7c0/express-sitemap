@@ -107,6 +107,7 @@ function SITEMAP(options) {
  * 
  * @function generate
  * @param {Object} app - express app
+ * @return {Object}
  */
 SITEMAP.prototype.generate = function(app) {
 
@@ -128,13 +129,11 @@ SITEMAP.prototype.generate = function(app) {
  */
 SITEMAP.prototype.tickle = function() {
 
-  if (global.tickle && global.tickle.route) {
-    var that = this.map;
-    var routing = global.tickle.route;
-    for ( var route in routing) {
-      that[route] = [];
+  if (global.tickle !== undefined && global.tickle.route !== undefined) {
+    for ( var route in global.tickle.route) {
+      this.map[route] = []; // don't know type of Verb
     }
-    return that;
+    return this.map;
   }
   return Object.create(null);
 };
@@ -142,11 +141,11 @@ SITEMAP.prototype.tickle = function() {
  * reset
  * 
  * @function reset
+ * @return {Object}
  */
 SITEMAP.prototype.reset = function() {
 
-  this.map = Object.create(null);
-  return;
+  return this.map = Object.create(null);
 };
 /**
  * create xml from sitemap
