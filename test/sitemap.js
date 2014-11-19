@@ -57,21 +57,24 @@ describe('sitemap', function() {
       generate: app
     }).XMLtoFile();
 
-    fs.readFile(xml, {
-      encoding: 'utf8'
-    }, function(err, data) {
+    setTimeout(function() {
 
-      if (err)
-        throw err;
-      var rs = '';
-      rs += '<url><loc>http://127.0.0.1/</loc></url>';
-      rs += '<url><loc>http://127.0.0.1/a</loc></url>';
-      assert.equal(data, head + rs + tail);
-      fs.unlink(xml, function() {
+      fs.readFile(xml, {
+        encoding: 'utf8'
+      }, function(err, data) {
 
-        done();
+        if (err)
+          throw err;
+        var rs = '';
+        rs += '<url><loc>http://127.0.0.1/</loc></url>';
+        rs += '<url><loc>http://127.0.0.1/a</loc></url>';
+        assert.equal(data, head + rs + tail);
+        fs.unlink(xml, function() {
+
+          done();
+        });
       });
-    });
+    }, 25);
   });
   it('should return sitemap from app with "route"', function(done) {
 
@@ -85,21 +88,24 @@ describe('sitemap', function() {
       }
     }).XMLtoFile();
 
-    fs.readFile(xml, {
-      encoding: 'utf8'
-    }, function(err, data) {
+    setTimeout(function() {
 
-      if (err)
-        throw err;
-      var rs = '';
-      rs += '<url><loc>http://127.0.0.1/</loc></url>';
-      rs += '<url><loc>http://127.0.0.1/a</loc><priority>1</priority></url>';
-      assert.equal(data, head + rs + tail);
-      fs.unlink(xml, function() {
+      fs.readFile(xml, {
+        encoding: 'utf8'
+      }, function(err, data) {
 
-        done();
+        if (err)
+          throw err;
+        var rs = '';
+        rs += '<url><loc>http://127.0.0.1/</loc></url>';
+        rs += '<url><loc>http://127.0.0.1/a</loc><priority>1</priority></url>';
+        assert.equal(data, head + rs + tail);
+        fs.unlink(xml, function() {
+
+          done();
+        });
       });
-    });
+    }, 25);
   });
   it('should return sitemap with "route"', function(done) {
 
@@ -126,22 +132,25 @@ describe('sitemap', function() {
       }
     }).XMLtoFile();
 
-    fs
-        .readFile(xml, {
-          encoding: 'utf8'
-        }, function(err, data) {
+    setTimeout(function() {
 
-          if (err)
-            throw err;
-          var rs = '';
-          rs += '<url><loc>http://127.0.0.1/foo</loc><lastmod>2014-00-00</lastmod><changefreq>always</changefreq><priority>1</priority></url>';
-          rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
-          assert.equal(data, head + rs + tail);
-          fs.unlink(xml, function() {
+      fs
+          .readFile(xml, {
+            encoding: 'utf8'
+          }, function(err, data) {
 
-            done();
+            if (err)
+              throw err;
+            var rs = '';
+            rs += '<url><loc>http://127.0.0.1/foo</loc><lastmod>2014-00-00</lastmod><changefreq>always</changefreq><priority>1</priority></url>';
+            rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
+            assert.equal(data, head + rs + tail);
+            fs.unlink(xml, function() {
+
+              done();
+            });
           });
-        });
+    }, 25);
   });
   it('should return sitemap with "route" without "map"', function(done) {
 
@@ -162,18 +171,21 @@ describe('sitemap', function() {
       }
     }).XMLtoFile();
 
-    fs.readFile(xml, {
-      encoding: 'utf8'
-    }, function(err, data) {
+    setTimeout(function() {
 
-      if (err)
-        throw err;
+      fs.readFile(xml, {
+        encoding: 'utf8'
+      }, function(err, data) {
 
-      assert.deepEqual(data, head + tail);
-      fs.unlink(xml, function() {
+        if (err)
+          throw err;
 
-        done();
+        assert.deepEqual(data, head + tail);
+        fs.unlink(xml, function() {
+
+          done();
+        });
       });
-    });
+    }, 25);
   });
 });
