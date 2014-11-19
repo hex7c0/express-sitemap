@@ -163,26 +163,16 @@ SITEMAP.prototype.xml = function() {
   for ( var uri in sitemap) {
     var rr = route.ALL || route[uri] || false;
     if (!rr || (!rr.disallow && !rr.hide)) {
-      data += '<url>';
-      data += '<loc>';
-      data += this.my.url;
-      data += uri;
-      data += '</loc>';
-      if (rr) {
-        if (rr.lastmod) {
-          data += '<lastmod>';
-          data += rr.lastmod;
-          data += '</lastmod>';
+      data += '<url><loc>' + this.my.url + uri + '</loc>';
+      if (typeof rr === 'object') {
+        if (rr.lastmod !== undefined) {
+          data += '<lastmod>' + rr.lastmod + '</lastmod>';
         }
-        if (rr.changefreq) {
-          data += '<changefreq>';
-          data += rr.changefreq;
-          data += '</changefreq>';
+        if (rr.changefreq !== undefined) {
+          data += '<changefreq>' + rr.changefreq + '</changefreq>';
         }
-        if (rr.priority) {
-          data += '<priority>';
-          data += rr.priority;
-          data += '</priority>';
+        if (rr.priority !== undefined) {
+          data += '<priority>' + rr.priority + '</priority>';
         }
       }
       data += '</url>';
@@ -211,9 +201,7 @@ SITEMAP.prototype.robots = function() {
       break;
     } else if (rr && rr.disallow && !rr.hide) {
       temp = false;
-      data += 'Disallow: ';
-      data += uri;
-      data += '\n';
+      data += 'Disallow: ' + uri + '\n';
     }
   }
   if (temp) {
