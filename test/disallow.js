@@ -29,19 +29,20 @@ try {
  */
 describe('disallow', function() {
 
+  var txt = 'd.txt';
   before(function(done) {
 
-    app.get('/', function(req, res) {
+    app.all('/', function(req, res) {
 
       res.send('hello /');
     });
-    app.get('/admin', function(req, res) {
+    app.get('/a', function(req, res) {
 
-      res.send('hello /admin');
+      res.send('hello /a');
     });
-    app.post('/admin', function(req, res) {
+    app.post('/A', function(req, res) {
 
-      res.send('hello /admin');
+      res.send('hello /A');
     });
     done();
   });
@@ -49,7 +50,7 @@ describe('disallow', function() {
   it('disallow all', function(done) {
 
     sitemap({
-      robots: 'p.txt',
+      robots: txt,
       route: {
         'ALL': {
           disallow: true,
@@ -57,14 +58,15 @@ describe('disallow', function() {
       },
       generate: app
     }).TXTtoFile();
-    fs.readFile('p.txt', {
+
+    fs.readFile(txt, {
       encoding: 'utf8'
     }, function(err, data) {
 
       if (err)
-        return done(err);
-      assert.deepEqual(data, 'User-agent: *\nDisallow: /\n', 'disallow all');
-      fs.unlink('p.txt', function() {
+        throw err;
+      assert.equal(data, 'User-agent: *\nDisallow: /\n', 'disallow all');
+      fs.unlink(txt, function() {
 
         done();
       });
@@ -73,27 +75,26 @@ describe('disallow', function() {
   it('disallow /admin', function(done) {
 
     sitemap({
-      robots: 'p.txt',
+      robots: txt,
       route: {
-        '/admin': {
+        '/a': {
           disallow: true,
         }
       },
       generate: app
     }).TXTtoFile();
-    fs
-        .readFile('p.txt', {
-          encoding: 'utf8'
-        }, function(err, data) {
 
-          if (err)
-            return done(err);
-          assert
-              .deepEqual(data, 'User-agent: *\nDisallow: /admin\n', 'disallow /admin');
-          fs.unlink('p.txt', function() {
+    fs.readFile(txt, {
+      encoding: 'utf8'
+    }, function(err, data) {
 
-            done();
-          });
-        });
+      if (err)
+        throw err;
+      assert.equal(data, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
+      fs.unlink(txt, function() {
+
+        done();
+      });
+    });
   });
 });
