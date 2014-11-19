@@ -36,7 +36,7 @@ function write(data, file) {
 
   return fs.writeFile(file, data, function(err) {
 
-    if (err) {
+    if (err !== null) {
       console.error(err);
     }
     return;
@@ -53,9 +53,8 @@ function write(data, file) {
  */
 function stream(data, res, header) {
 
-  var re = res.res || res;
-  re.header('Content-Type', header);
-  re.send(data);
+  res.header('Content-Type', header);
+  res.send(data);
   return;
 }
 
@@ -145,7 +144,9 @@ SITEMAP.prototype.tickle = function() {
  */
 SITEMAP.prototype.reset = function() {
 
-  return this.map = Object.create(null);
+  var r = Object.create(null);
+  this.map = r;
+  return r;
 };
 /**
  * create xml from sitemap
