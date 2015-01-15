@@ -112,7 +112,7 @@ SITEMAP.prototype.generate = function(app) {
 
   if (app && app._router) {
     if (app._router.stack) { // express@4
-      return this.generate(app);
+      return this.generate4(app);
     }
     if (app._router.map) { // express@3
       return this.generate3(app);
