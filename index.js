@@ -102,7 +102,7 @@ function SITEMAP(options) {
   return;
 }
 /**
- * generate sitemap object
+ * wrapper for generate sitemap object
  * 
  * @function generate
  * @param {Object} app - express app
@@ -110,11 +110,48 @@ function SITEMAP(options) {
  */
 SITEMAP.prototype.generate = function(app) {
 
+  if (app && app._router) {
+    if (app._router.stack) { // express@4
+      return this.generate(app);
+    }
+    if (app._router.map) { // express@3
+      return this.generate3(app);
+    }
+  }
+  throw new Error('missing express configuration');
+};
+/**
+ * generate sitemap object for express4. GET only
+ * 
+ * @function generate
+ * @param {Object} app - express app
+ * @return {Object}
+ */
+SITEMAP.prototype.generate4 = function(app) {
+
   var routing = app._router.stack;
   for (var i = 0, ii = routing.length; i < ii; i++) {
     var route = routing[i].route;
     if (route !== undefined && route.methods !== undefined
         && route.methods.get !== undefined) {
+      this.map[route.path] = [ 'get' ];
+    }
+  }
+  return this.map;
+};
+/**
+ * generate sitemap object for express3. GET only
+ * 
+ * @function generate3
+ * @param {Object} app - express app
+ * @return {Object}
+ */
+SITEMAP.prototype.generate3 = function(app) {
+
+  var routing = app.routes.get;
+  for (var i = 0, ii = routing.length; i < ii; i++) {
+    var route = routing[i];
+    if (route !== undefined && route.path !== undefined) {
       this.map[route.path] = [ 'get' ];
     }
   }
