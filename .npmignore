@@ -1,4 +1,5 @@
 .git*
+.npmignore
 .project
 .jshintrc
 .jsdoc.json
@@ -18,4 +19,4 @@ test/
 
 node_modules/
 bower_components/
-
+tmp/
