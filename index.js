@@ -4,7 +4,7 @@
  * @module express-sitemap
  * @package express-sitemap
  * @subpackage main
- * @version 1.3.0
+ * @version 1.4.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -96,7 +96,7 @@ function SITEMAP(options) {
   this.my.sitemap = resolve(this.my.sitemap);
   this.my.robots = resolve(this.my.robots);
   this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
-  if (opt.generate && opt.generate._router) {
+  if (opt.generate) {
     this.generate(opt.generate);
   }
   return;
