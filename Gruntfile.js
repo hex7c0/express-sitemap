@@ -20,6 +20,10 @@ module.exports = function(grunt) {
 
     uglify: {
       target: {
+        options: {
+          mangle: false,
+          beautify: true
+        },
         files: [ {
           expand: true,
           src: 'lib/**/*.js',
@@ -45,7 +49,8 @@ module.exports = function(grunt) {
         node: true,
         // relax
         laxbreak: true,
-        loopfunc: true
+        loopfunc: true,
+        shadow: true
       },
       target: {
         src: [ 'lib/**/*.js', 'module/**/*.js', 'index.js' ]
