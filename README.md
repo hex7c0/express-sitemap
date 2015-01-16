@@ -83,9 +83,19 @@ reset prototype Object for sitemap
 sitemap.reset();
 ```
 
-generate prototype Object for sitemap
+generate sitemap (wrapper)
 ```js
 sitemap.generate(app);
+```
+
+generate sitemap from express 4.x configuration
+```js
+sitemap.generate4(app);
+```
+
+generate sitemap from express 3.x configuration
+```js
+sitemap.generate3(app);
 ```
 
 generate prototype Object for sitemap if you use middleware or dynamic building
