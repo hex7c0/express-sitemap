@@ -14,13 +14,7 @@
  * initialize module
  */
 // import
-try {
-  var fs = require('fs');
-  var resolve = require('path').resolve;
-} catch (MODULE_NOT_FOUND) {
-  console.error(MODULE_NOT_FOUND);
-  process.exit(1);
-}
+var fs = require('fs');
 
 /*
  * functions
@@ -83,19 +77,24 @@ module.exports = sitemap;
  */
 function SITEMAP(options) {
 
+  var resolve = require('path').resolve;
+
   var opt = options || Object.create(null);
   var http = opt.http == 'https' ? 'https://' : 'http://';
   var url = String(opt.url || '127.0.0.1');
   var port = isNaN(opt.port) ? '' : ':' + Number(opt.port);
+
   this.my = {
     url: http + url + port,
     sitemap: String(opt.sitemap || 'sitemap.xml'),
     robots: String(opt.robots || 'robots.txt'),
     route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
   };
+
   this.my.sitemap = resolve(this.my.sitemap);
   this.my.robots = resolve(this.my.robots);
   this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
+
   if (opt.generate) {
     this.generate(opt.generate);
   }
@@ -133,7 +132,7 @@ SITEMAP.prototype.generate4 = function(app) {
   for (var i = 0, ii = routing.length; i < ii; i++) {
     var route = routing[i].route;
     if (route !== undefined && route.methods !== undefined
-        && route.methods.get !== undefined) {
+      && route.methods.get !== undefined) {
       this.map[route.path] = [ 'get' ];
     }
   }
