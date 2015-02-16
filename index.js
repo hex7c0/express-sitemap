@@ -2,7 +2,6 @@
 /**
  * @file express-sitemap main
  * @module express-sitemap
- * @package express-sitemap
  * @subpackage main
  * @version 1.4.0
  * @author hex7c0 <hex7c0@gmail.com>
@@ -30,10 +29,7 @@ function write(data, file) {
 
   return fs.writeFile(file, data, function(err) {
 
-    if (err !== null) {
-      console.error(err);
-    }
-    return;
+    return err !== null ? console.error(err) : null;
   });
 }
 
@@ -57,11 +53,11 @@ function stream(data, res, header) {
  * 
  * @exports sitemap
  * @function sitemap
- * @return {SITEMAP}
+ * @return {Sitemap}
  */
 function sitemap(options) {
 
-  return new SITEMAP(options);
+  return new Sitemap(options);
 }
 module.exports = sitemap;
 
@@ -69,13 +65,13 @@ module.exports = sitemap;
  * class
  */
 /**
- * SITEMAP class
+ * Sitemap class
  * 
- * @class SITEMAP
+ * @class Sitemap
  * @param {Object} options - various options. Check README.md
  * @return {Object}
  */
-function SITEMAP(options) {
+function Sitemap(options) {
 
   var resolve = require('path').resolve;
 
@@ -89,17 +85,34 @@ function SITEMAP(options) {
     sitemap: String(opt.sitemap || 'sitemap.xml'),
     robots: String(opt.robots || 'robots.txt'),
     route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
+    cache: Number(opt.cache) || false
   };
 
   this.my.sitemap = resolve(this.my.sitemap);
   this.my.robots = resolve(this.my.robots);
   this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
 
+  this._XMLwork = this.xml;
+  this._TXTwork = this.txt;
+  if (opt.cache) { // cache override
+    this.cache = {
+      xml: {
+        timestamp: 0
+      },
+      txt: {
+        timestamp: 0
+      }
+    };
+    this._XMLwork = this._XMLcache;
+    this._TXTwork = this._TXTcache;
+  }
+
   if (opt.generate) {
     this.generate(opt.generate);
   }
   return;
 }
+
 /**
  * wrapper for generate sitemap object
  * 
@@ -107,7 +120,7 @@ function SITEMAP(options) {
  * @param {Object} app - express app
  * @return {Object}
  */
-SITEMAP.prototype.generate = function(app) {
+Sitemap.prototype.generate = function(app) {
 
   if (app && app._router) {
     if (app._router.stack) { // express@4
@@ -119,6 +132,7 @@ SITEMAP.prototype.generate = function(app) {
   }
   throw new Error('missing express configuration');
 };
+
 /**
  * generate sitemap object for express4. GET only
  * 
@@ -126,7 +140,7 @@ SITEMAP.prototype.generate = function(app) {
  * @param {Object} app - express app
  * @return {Object}
  */
-SITEMAP.prototype.generate4 = function(app) {
+Sitemap.prototype.generate4 = function(app) {
 
   var routing = app._router.stack;
   for (var i = 0, ii = routing.length; i < ii; i++) {
@@ -138,6 +152,7 @@ SITEMAP.prototype.generate4 = function(app) {
   }
   return this.map;
 };
+
 /**
  * generate sitemap object for express3. GET only
  * 
@@ -145,7 +160,7 @@ SITEMAP.prototype.generate4 = function(app) {
  * @param {Object} app - express app
  * @return {Object}
  */
-SITEMAP.prototype.generate3 = function(app) {
+Sitemap.prototype.generate3 = function(app) {
 
   var routing = app.routes.get;
   for (var i = 0, ii = routing.length; i < ii; i++) {
@@ -156,13 +171,14 @@ SITEMAP.prototype.generate3 = function(app) {
   }
   return this.map;
 };
+
 /**
  * generate sitemap object with tickle
  * 
  * @function tickle
  * @return {Object}
  */
-SITEMAP.prototype.tickle = function() {
+Sitemap.prototype.tickle = function() {
 
   if (global.tickle !== undefined && global.tickle.route !== undefined) {
     for ( var route in global.tickle.route) {
@@ -172,25 +188,37 @@ SITEMAP.prototype.tickle = function() {
   }
   return Object.create(null);
 };
+
 /**
  * reset
  * 
  * @function reset
  * @return {Object}
  */
-SITEMAP.prototype.reset = function() {
+Sitemap.prototype.reset = function() {
 
   var r = Object.create(null);
   this.map = r;
+  if (this.my.cache) {
+    this.cache = {
+      xml: {
+        timestamp: 0
+      },
+      txt: {
+        timestamp: 0
+      }
+    };
+  }
   return r;
 };
+
 /**
  * create xml from sitemap
  * 
  * @function xml
  * @return {String}
  */
-SITEMAP.prototype.xml = function() {
+Sitemap.prototype.xml = function() {
 
   var route = this.my.route;
   var sitemap = this.map;
@@ -217,13 +245,14 @@ SITEMAP.prototype.xml = function() {
   data += '</urlset>';
   return data;
 };
+
 /**
- * create robots.txt from sitemap
+ * create txt from sitemap
  * 
  * @function robots
  * @return {String}
  */
-SITEMAP.prototype.robots = function() {
+Sitemap.prototype.txt = function() {
 
   var temp = true;
   var route = this.my.route;
@@ -245,52 +274,100 @@ SITEMAP.prototype.robots = function() {
   }
   return data;
 };
+
 /**
  * alias for write sitemap to file
  * 
  * @function XMLtoFile
+ * @return
  */
-SITEMAP.prototype.XMLtoFile = function() {
+Sitemap.prototype.XMLtoFile = function() {
 
-  return write(this.xml(), this.my.sitemap);
+  return write(this._XMLwork(), this.my.sitemap);
 };
+
 /**
  * alias for write robots.txt to file
  * 
  * @function TXTtoFile
+ * @return
  */
-SITEMAP.prototype.TXTtoFile = function() {
+Sitemap.prototype.TXTtoFile = function() {
 
-  return write(this.robots(), this.my.robots);
+  return write(this._TXTwork(), this.my.robots);
 };
+
 /**
  * alias for write both to files
  * 
  * @function toFile
+ * @return
  */
-SITEMAP.prototype.toFile = function() {
+Sitemap.prototype.toFile = function() {
 
-  write(this.xml(), this.my.sitemap);
-  write(this.robots(), this.my.robots);
+  write(this._XMLwork(), this.my.sitemap);
+  write(this._TXTwork(), this.my.robots);
   return;
 };
+
 /**
  * alias for stream sitemap to web
  * 
  * @function XMLtoWeb
  * @param {Object} res - response to client
+ * @return
  */
-SITEMAP.prototype.XMLtoWeb = function(res) {
+Sitemap.prototype.XMLtoWeb = function(res) {
 
-  return stream(this.xml(), res, 'application/xml');
+  return stream(this._XMLwork(), res, 'application/xml');
 };
+
 /**
  * alias for stream robots.txt to web
  * 
  * @function TXTtoWeb
  * @param {Object} res - response to client
+ * @return
  */
-SITEMAP.prototype.TXTtoWeb = function(res) {
+Sitemap.prototype.TXTtoWeb = function(res) {
 
-  return stream(this.robots(), res, 'text/plain');
+  return stream(this._TXTwork(), res, 'text/plain');
+};
+
+/**
+ * check xml cache hit or refresh
+ * 
+ * @function _XMLcache
+ * @return {string}
+ */
+Sitemap.prototype._XMLcache = function() {
+
+  if ((this.cache.xml.timestamp - Date.now()) > 0) {
+    return this.cache.xml.data;
+  }
+  var data = this.xml();
+  this.cache.xml = {
+    timestamp: Date.now() + this.my.cache,
+    data: data
+  };
+  return data;
+};
+
+/**
+ * check txt cache hit or refresh
+ * 
+ * @function _TXTcache
+ * @return {string}
+ */
+Sitemap.prototype._TXTcache = function() {
+
+  if ((this.cache.txt.timestamp - Date.now()) > 0) {
+    return this.cache.txt.data;
+  }
+  var data = this.txt();
+  this.cache.txt = {
+    timestamp: Date.now() + this.my.cache,
+    data: data
+  };
+  return data;
 };
