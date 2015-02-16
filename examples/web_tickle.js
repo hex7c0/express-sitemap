@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @file write all GET route to file
+ * @file web example with tickle integration
  * @module express-sitemap
  * @subpackage examples
  * @version 0.0.1
@@ -13,10 +13,14 @@
  */
 // import
 var sitemap = require('..'); // use require('express-sitemap') instead
-var app = require('express')();
+var express = require('express');
+var tickle = require('tickle');
+var child = express();
+
+child.use(tickle);
 
 // express routing
-app.get('/', function(req, res) {
+child.get('/', function(req, res) {
 
   res.send('hello /');
 }).get('/admin', function(req, res) {
@@ -43,21 +47,25 @@ app.get('/', function(req, res) {
 });
 
 /*
- * sitemap
+ * try now :)
  */
-sitemap = sitemap({
-  sitemap: 'all.xml', // path for .XMLtoFile
-  route: {
-    'ALL': {
-      lastmod: '2014-06-20',
-      changefreq: 'always',
-      priority: 1.0,
-    }
-  },
+var map;
+child.get('/sitemap.xml', function(req, res) {
+
+  map.tickle(); // refresh this map
+  map.XMLtoWeb(res);
 });
 
-sitemap.generate(app); // generate sitemap from express route
+// server starting
+child.listen(3000);
+console.log('starting "hello world" on port 3000');
 
-sitemap.XMLtoFile(); // write this map to file
+map = sitemap();
 
-console.log('file wrote');
+console.log(map.generate(child)); // generate XML and print to console
+
+map.reset(); // reset this map
+
+// now your sitemap is empty (after reset)
+// if you navigate to every route, it will be stored inside "tickle" container
+// and when you go to /sitemap.xml, it will show the new routes

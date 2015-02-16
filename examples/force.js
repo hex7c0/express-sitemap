@@ -1,8 +1,7 @@
 'use strict';
 /**
- * @file force example
+ * @file write static configuration to file
  * @module express-sitemap
- * @package express-sitemap
  * @subpackage examples
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
@@ -13,36 +12,33 @@
  * initialize module
  */
 // import
-try {
-    var sitemap = require('../index.min.js'); // use require('express-sitemap') instead
-} catch (MODULE_NOT_FOUND) {
-    console.error(MODULE_NOT_FOUND);
-    process.exit(1);
-}
+var sitemap = require('..'); // use require('express-sitemap') instead
 
 /*
  * sitemap
  */
 sitemap({
-    sitemap: 'force.xml',
-    robots: 'force.txt',
-    map: {
-        '/foo': ['get'],
-        '/foo2': ['get','post'],
-        '/admin': ['get'],
-        '/backdoor': [],
+  sitemap: 'force.xml', // path for .XMLtoFile
+  robots: 'force.txt', // path for .TXTtoFile
+  map: {
+    '/foo': [ 'get' ],
+    '/foo2': [ 'get', 'post' ],
+    '/admin': [ 'get' ],
+    '/backdoor': [], // always set an Array
+  },
+  route: { // specific a custom route
+    '/foo': {
+      lastmod: '2014-06-19',
+      changefreq: 'always',
+      priority: 1.0,
     },
-    route: {
-        '/foo': {
-            lastmod: '2014-06-19',
-            changefreq: 'always',
-            priority: 1.0,
-        },
-        '/admin': {
-            disallow: true,
-        },
-        '/backdoor': {
-            hide: true,
-        },
+    '/admin': {
+      disallow: true, // write this route to robots.txt
     },
+    '/backdoor': {
+      hide: true, // exclude this route from xml and txt
+    }
+  }
 }).toFile();
+
+console.log('files wrote');
