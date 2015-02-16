@@ -4,7 +4,7 @@
  * @subpackage main
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
- * @copyright hex7c0 2014
+ * @copyright hex7c0 2015
  * @license GPLv3
  */
 
@@ -13,8 +13,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     banner: '/*\n' + ' * <%= pkg.name %> v<%= pkg.version %>\n'
-        + ' * (c) <%= pkg.author.name %> <%= pkg.homepage %>\n'
-        + ' * Licensed under <%= pkg.license %>\n' + ' */\n',
+      + ' * (c) <%= pkg.author.name %> <%= pkg.homepage %>\n'
+      + ' * Licensed under <%= pkg.license %>\n' + ' */\n',
 
     clean: [ 'index.min.js', 'min/**/*.js' ],
 
