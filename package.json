@@ -37,12 +37,12 @@
     "supertest": "~0.15"
   },
   "engines": {
-    "node": "^0.10"
+    "node": ">=0.10"
   },
   "scripts": {
     "prepublish": "npm prune",
-    "test": "npm run tests && npm install express@3 && npm run tests",
-    "tests": "mocha --bail --check-leaks test/"
+    "test": "npm run test-express && npm install express@3 && npm run test-express",
+    "test-express": "mocha --bail --check-leaks"
   },
   "license": "GPLv3"
 }

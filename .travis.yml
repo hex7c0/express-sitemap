@@ -3,6 +3,7 @@ sudo: false
 node_js:
   - "0.11"
   - "0.10"
+  - "iojs"
 notifications:
   email:
     on_success: never
