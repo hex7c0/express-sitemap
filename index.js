@@ -116,18 +116,21 @@ function Sitemap(options) {
 /**
  * wrapper for generate sitemap object
  * 
- * @function generate
+ * @function generate3
  * @param {Object} app - express app
  * @return {Object}
  */
 Sitemap.prototype.generate = function(app) {
 
-  if (app && app._router) {
-    if (app._router.stack) { // express@4
+  if (app) {
+    if (app._router) {
+      if (app._router.stack) { // express@4
+        return this.generate4(app);
+      } else if (app._router.map) { // express@3
+        return this.generate3(app);
+      }
+    } else if (app.stack) { // express@4.Router
       return this.generate4(app);
-    }
-    if (app._router.map) { // express@3
-      return this.generate3(app);
     }
   }
   throw new Error('missing express configuration');
@@ -136,13 +139,13 @@ Sitemap.prototype.generate = function(app) {
 /**
  * generate sitemap object for express4. GET only
  * 
- * @function generate
+ * @function generate4
  * @param {Object} app - express app
  * @return {Object}
  */
 Sitemap.prototype.generate4 = function(app) {
 
-  var routing = app._router.stack;
+  var routing = app._router !== undefined ? app._router.stack : app.stack;
   for (var i = 0, ii = routing.length; i < ii; i++) {
     var route = routing[i].route;
     if (route !== undefined && route.methods !== undefined
