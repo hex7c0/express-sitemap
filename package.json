@@ -41,8 +41,9 @@
   },
   "scripts": {
     "prepublish": "npm prune",
-    "test": "npm run test-express && npm install express@3 && npm run test-express",
-    "test-express": "mocha --bail --check-leaks"
+    "test": "npm run express3 && npm install express@4 && npm run express4",
+    "express3": "mocha --bail --check-leaks",
+    "express4": "mocha test/*"
   },
   "license": "GPLv3"
 }
