@@ -197,7 +197,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
  * @param {Boolean} [store] - store this path inside class
  * @return {Object}
  */
-Sitemap.prototype.generate3 = function(app, store) {
+Sitemap.prototype.generate3 = function(app, router, store) {
 
   var map = Object.create(null);
   var routing = app.routes.get;
