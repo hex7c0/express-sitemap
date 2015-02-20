@@ -118,19 +118,21 @@ function Sitemap(options) {
  * 
  * @function generate3
  * @param {Object} app - express app
+ * @param {Object} [router] - express nested router path
+ * @param {Boolean} [store] - store this path inside class
  * @return {Object}
  */
-Sitemap.prototype.generate = function(app) {
+Sitemap.prototype.generate = function(app, router, store) {
 
   if (app) {
     if (app._router) {
       if (app._router.stack) { // express@4
-        return this.generate4(app);
+        return this.generate4(app, router, store);
       } else if (app._router.map) { // express@3
-        return this.generate3(app);
+        return this.generate3(app, router, store);
       }
     } else if (app.stack) { // express@4.Router
-      return this.generate4(app);
+      return this.generate4(app, router, store);
     }
   }
   throw new Error('missing express configuration');
@@ -141,19 +143,49 @@ Sitemap.prototype.generate = function(app) {
  * 
  * @function generate4
  * @param {Object} app - express app
+ * @param {Object} [router] - express nested router path
+ * @param {Boolean} [store] - store this path inside class
  * @return {Object}
  */
-Sitemap.prototype.generate4 = function(app) {
+Sitemap.prototype.generate4 = function(app, router, store) {
 
+  var map = Object.create(null);
   var routing = app._router !== undefined ? app._router.stack : app.stack;
+
   for (var i = 0, ii = routing.length; i < ii; i++) {
-    var route = routing[i].route;
-    if (route !== undefined && route.methods !== undefined
-      && route.methods.get !== undefined) {
-      this.map[route.path] = [ 'get' ];
+    var route = routing[i];
+
+    if (route.route !== undefined) { // direct
+      route = routing[i].route;
+      if (route && route.methods && (route.methods.get || route.methods._all)) {
+        map[route.path] = [ 'get' ];
+      }
+
+    } else if (route.handle && route.handle.stack && router) { // router
+      var handle;
+      for (var j = 0, jj = router.length; j < jj; j++) {
+        if (route.regexp.test(router[j])) {
+          handle = router[j];
+        }
+      }
+      if (handle) {
+        var route = this.generate4(route.handle, router, false); // recursive
+        if (route) {
+          route = Object.keys(route);
+          for (j = 0, jj = route.length; j < jj; j++) {
+            map[handle + route[j]] = [ 'get' ];
+          }
+        }
+      }
+    }
+
+  }
+  if (store !== false) {
+    for (routing in map) {
+      this.map[routing] = map[routing];
     }
   }
-  return this.map;
+  return map;
 };
 
 /**
@@ -161,18 +193,26 @@ Sitemap.prototype.generate4 = function(app) {
  * 
  * @function generate3
  * @param {Object} app - express app
+ * @param {Object} [router] - express nested router path
+ * @param {Boolean} [store] - store this path inside class
  * @return {Object}
  */
-Sitemap.prototype.generate3 = function(app) {
+Sitemap.prototype.generate3 = function(app, store) {
 
+  var map = Object.create(null);
   var routing = app.routes.get;
+
   for (var i = 0, ii = routing.length; i < ii; i++) {
     var route = routing[i];
-    if (route !== undefined && route.path !== undefined) {
-      this.map[route.path] = [ 'get' ];
+    if (route && route.path) {
+      map[route.path] = [ 'get' ];
     }
   }
-  return this.map;
+
+  if (store !== false) {
+    this.map = map;
+  }
+  return map;
 };
 
 /**
