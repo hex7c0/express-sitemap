@@ -43,9 +43,7 @@ function write(data, file) {
  */
 function stream(data, res, header) {
 
-  res.header('Content-Type', header);
-  res.send(data);
-  return;
+  return res.header('Content-Type', header).send(data);
 }
 
 /**
@@ -322,22 +320,24 @@ Sitemap.prototype.txt = function() {
  * alias for write sitemap to file
  * 
  * @function XMLtoFile
+ * @param {String} [path] override class location
  * @return
  */
-Sitemap.prototype.XMLtoFile = function() {
+Sitemap.prototype.XMLtoFile = function(path) {
 
-  return write(this._XMLwork(), this.my.sitemap);
+  return write(this._XMLwork(), path || this.my.sitemap);
 };
 
 /**
  * alias for write robots.txt to file
  * 
  * @function TXTtoFile
+ * @param {String} [path] override class location
  * @return
  */
-Sitemap.prototype.TXTtoFile = function() {
+Sitemap.prototype.TXTtoFile = function(path) {
 
-  return write(this._TXTwork(), this.my.robots);
+  return write(this._TXTwork(), path || this.my.robots);
 };
 
 /**
