@@ -1,8 +1,7 @@
 'use strict';
 /**
- * @file express-sitemap sitemap test
+ * @file sitemap test
  * @module express-sitemap
- * @package express-sitemap
  * @subpackage test
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
@@ -13,16 +12,11 @@
  * initialize module
  */
 // import
-try {
-  var sitemap = require('..');
-  // instead
-  var app = require('express')();
-  var assert = require('assert');
-  var fs = require('fs');
-} catch (MODULE_NOT_FOUND) {
-  console.error(MODULE_NOT_FOUND);
-  process.exit(1);
-}
+var sitemap = require('..');
+var app = require('express')();
+var assert = require('assert');
+var fs = require('fs');
+var request = require('supertest');
 
 /*
  * test module
@@ -30,9 +24,11 @@ try {
 describe('sitemap', function() {
 
   // no XML parsing
-  var head = '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  var head = '<?xml version="1.0" encoding="UTF-8"?>';
+  head += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
   var tail = '</urlset>';
   var xml = 's.xml';
+
   before(function(done) {
 
     app.all('/', function(req, res) {
@@ -50,142 +46,188 @@ describe('sitemap', function() {
     done();
   });
 
-  it('should return sitemap from app', function(done) {
+  describe('file', function() {
 
-    sitemap({
-      sitemap: xml,
-      generate: app
-    }).XMLtoFile();
+    it('should write sitemap from app', function(done) {
 
-    setTimeout(function() {
+      sitemap({
+        generate: app
+      }).XMLtoFile(xml);
+      done();
+    });
+    it('should read sitemap', function(done) {
 
       fs.readFile(xml, {
         encoding: 'utf8'
       }, function(err, data) {
 
-        if (err)
-          throw err;
+        assert.equal(err, null);
         var rs = '';
         rs += '<url><loc>http://127.0.0.1/</loc></url>';
         rs += '<url><loc>http://127.0.0.1/a</loc></url>';
         assert.equal(data, head + rs + tail);
-        fs.unlink(xml, function() {
-
-          done();
-        });
+        fs.unlink(xml, done);
       });
-    }, 25);
-  });
-  it('should return sitemap from app with "route"', function(done) {
+    });
+    it('should write sitemap from app with "route"', function(done) {
 
-    sitemap({
-      sitemap: xml,
-      generate: app,
-      route: {
-        '/a': {
-          priority: 1.0
+      sitemap({
+        generate: app,
+        route: {
+          '/a': {
+            priority: 1.0
+          }
         }
-      }
-    }).XMLtoFile();
+      }).XMLtoFile(xml);
+      done();
 
-    setTimeout(function() {
+    });
+    it('should read sitemap', function(done) {
 
       fs.readFile(xml, {
         encoding: 'utf8'
       }, function(err, data) {
 
-        if (err)
-          throw err;
+        assert.equal(err, null);
         var rs = '';
         rs += '<url><loc>http://127.0.0.1/</loc></url>';
-        rs += '<url><loc>http://127.0.0.1/a</loc><priority>1</priority></url>';
+        rs += '<url><loc>http://127.0.0.1/a</loc>';
+        rs += '<priority>1</priority></url>';
         assert.equal(data, head + rs + tail);
-        fs.unlink(xml, function() {
-
-          done();
-        });
+        fs.unlink(xml, done);
       });
-    }, 25);
-  });
-  it('should return sitemap with "route"', function(done) {
+    });
+    it('should write sitemap with "route"', function(done) {
 
-    sitemap({
-      sitemap: xml,
-      map: {
-        '/foo': [ 'get' ],
-        '/foo2': [ 'get', 'post' ],
-        '/admin': [ 'get' ],
-        '/backdoor': [],
-      },
-      route: {
-        '/foo': {
-          lastmod: '2014-00-00',
-          changefreq: 'always',
-          priority: 1.0
+      sitemap({
+        map: {
+          '/foo': [ 'get' ],
+          '/foo2': [ 'get', 'post' ],
+          '/admin': [ 'get' ],
+          '/backdoor': [],
         },
-        '/admin': {
-          disallow: true
-        },
-        '/backdoor': {
-          hide: true
-        },
-      }
-    }).XMLtoFile();
-
-    setTimeout(function() {
-
-      fs
-          .readFile(xml, {
-            encoding: 'utf8'
-          }, function(err, data) {
-
-            if (err)
-              throw err;
-            var rs = '';
-            rs += '<url><loc>http://127.0.0.1/foo</loc><lastmod>2014-00-00</lastmod><changefreq>always</changefreq><priority>1</priority></url>';
-            rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
-            assert.equal(data, head + rs + tail);
-            fs.unlink(xml, function() {
-
-              done();
-            });
-          });
-    }, 25);
-  });
-  it('should return sitemap with "route" without "map"', function(done) {
-
-    sitemap({
-      sitemap: xml,
-      route: {
-        '/foo': {
-          lastmod: '2014-00-00',
-          changefreq: 'always',
-          priority: 1.0
-        },
-        '/admin': {
-          disallow: true
-        },
-        '/backdoor': {
-          hide: true
-        },
-      }
-    }).XMLtoFile();
-
-    setTimeout(function() {
+        route: {
+          '/foo': {
+            lastmod: '2014-00-00',
+            changefreq: 'always',
+            priority: 1.0
+          },
+          '/admin': {
+            disallow: true
+          },
+          '/backdoor': {
+            hide: true
+          },
+        }
+      }).XMLtoFile(xml);
+      done();
+    });
+    it('should read sitemap', function(done) {
 
       fs.readFile(xml, {
         encoding: 'utf8'
       }, function(err, data) {
 
-        if (err)
-          throw err;
-
-        assert.deepEqual(data, head + tail);
-        fs.unlink(xml, function() {
-
-          done();
-        });
+        assert.equal(err, null);
+        var rs = '';
+        rs += '<url><loc>http://127.0.0.1/foo</loc>';
+        rs += '<lastmod>2014-00-00</lastmod><changefreq>always</changefreq>';
+        rs += '<priority>1</priority></url>';
+        rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
+        assert.equal(data, head + rs + tail);
+        fs.unlink(xml, done);
       });
-    }, 25);
+    });
+    it('should write sitemap with "route" without "map"', function(done) {
+
+      sitemap({
+        route: {
+          '/foo': {
+            lastmod: '2014-00-00',
+            changefreq: 'always',
+            priority: 1.0
+          },
+          '/admin': {
+            disallow: true
+          },
+          '/backdoor': {
+            hide: true
+          },
+        }
+      }).XMLtoFile(xml);
+      done();
+    });
+    it('should read sitemap', function(done) {
+
+      fs.readFile(xml, {
+        encoding: 'utf8'
+      }, function(err, data) {
+
+        assert.equal(err, null);
+        assert.deepEqual(data, head + tail);
+        fs.unlink(xml, done);
+      });
+    });
+  });
+
+  describe('web', function() {
+
+    var rs = '';
+    rs += '<url><loc>http://127.0.0.1/foo</loc>';
+    rs += '<lastmod>2014-00-00</lastmod><changefreq>always</changefreq>';
+    rs += '<priority>1</priority></url>';
+    rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
+
+    before(function(done) {
+
+      var map = sitemap({
+        cache: 60,
+        map: {
+          '/foo': [ 'get' ],
+          '/foo2': [ 'get', 'post' ],
+          '/admin': [ 'get' ],
+          '/backdoor': [],
+        },
+        route: {
+          '/foo': {
+            lastmod: '2014-00-00',
+            changefreq: 'always',
+            priority: 1.0
+          },
+          '/admin': {
+            disallow: true
+          },
+          '/backdoor': {
+            hide: true
+          },
+        }
+      });
+      app.get('/sitemap.xml', function(req, res) {
+
+        map.XMLtoWeb(res);
+      });
+      done();
+    });
+
+    it('should get sitemap from web', function(done) {
+
+      request(app).get('/sitemap.xml').expect(200).expect('Content-Type',
+        /application\/xml/).end(function(err, res) {
+
+        assert.equal(err, null);
+        assert.equal(res.text, head + rs + tail);
+        done();
+      });
+    });
+    it('should get sitemap from web cache', function(done) {
+
+      request(app).get('/sitemap.xml').expect(200).expect('Content-Type',
+        /application\/xml/).end(function(err, res) {
+
+        assert.equal(err, null);
+        assert.equal(res.text, head + rs + tail);
+        done();
+      });
+    });
   });
 });

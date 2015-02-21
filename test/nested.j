@@ -1,8 +1,7 @@
 'use strict';
 /**
- * @file express-sitemap nested test
+ * @file nested callback test (fro express@4)
  * @module express-sitemap
- * @package express-sitemap
  * @subpackage test
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>

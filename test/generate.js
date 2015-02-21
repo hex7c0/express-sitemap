@@ -1,8 +1,7 @@
 'use strict';
 /**
- * @file express-sitemap generate test
+ * @file sitemap generate test
  * @module express-sitemap
- * @package express-sitemap
  * @subpackage test
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
@@ -13,16 +12,9 @@
  * initialize module
  */
 // import
-try {
-  var sitemap = require('..');
-  // instead
-  var app = require('express')();
-  var assert = require('assert');
-  var fs = require('fs');
-} catch (MODULE_NOT_FOUND) {
-  console.error(MODULE_NOT_FOUND);
-  process.exit(1);
-}
+var sitemap = require('..');
+var app = require('express')();
+var assert = require('assert');
 
 /*
  * test module
