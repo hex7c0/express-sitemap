@@ -90,9 +90,9 @@ generate sitemap (wrapper)
 sitemap.generate(app);
 ```
 
-generate sitemap from express 4.x configuration
+generate sitemap from express 4.x configuration. Add an array with Router path if you want use nested callback
 ```js
-sitemap.generate4(app);
+sitemap.generate4(app, [Router]);
 ```
 
 generate sitemap from express 3.x configuration
@@ -105,14 +105,14 @@ generate prototype Object for sitemap if you use middleware or dynamic building
 sitemap.tickle();
 ```
 
-write sitemap Object to file
+write sitemap Object to file (set pathname inside module configuration or like argument)
 ```js
-sitemap.XMLtoFile();
+sitemap.XMLtoFile([path]);
 ```
 
-write robots.txt to file
+write robots.txt to file (set pathname inside module configuration or like argument)
 ```js
-sitemap.TXTtoFile();
+sitemap.TXTtoFile([path]);
 ```
 
 write both to files
