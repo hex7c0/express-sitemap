@@ -60,14 +60,17 @@ describe('robots', function() {
       });
       it('should read this file', function(done) {
 
-        fs.readFile(txt, {
-          encoding: 'utf8'
-        }, function(err, data) {
+        setTimeout(function() {
 
-          assert.equal(err, null);
-          assert.equal(data, 'User-agent: *\nDisallow: /\n', 'disallow all');
-          fs.unlink(txt, done);
-        });
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.equal(err, null);
+            assert.equal(data, 'User-agent: *\nDisallow: /\n', 'disallow all');
+            fs.unlink(txt, done);
+          });
+        }, 50);
       });
     });
 
@@ -87,14 +90,17 @@ describe('robots', function() {
       });
       it('should read this file', function(done) {
 
-        fs.readFile(txt, {
-          encoding: 'utf8'
-        }, function(err, data) {
+        setTimeout(function() {
 
-          assert.equal(err, null);
-          assert.equal(data, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
-          fs.unlink(txt, done);
-        });
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.equal(err, null);
+            assert.equal(data, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
+            fs.unlink(txt, done);
+          });
+        }, 50);
       });
     });
   });
