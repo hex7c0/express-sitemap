@@ -12,7 +12,7 @@
  * initialize module
  */
 // import
-var sitemap = require('..'); // use require('express-sitemap') instead
+var map = require('..'); // use require('express-sitemap') instead
 var app = require('express')();
 
 // express routing
@@ -45,7 +45,7 @@ app.get('/', function(req, res) {
 /*
  * sitemap
  */
-sitemap = sitemap({
+var sitemap = map({
   sitemap: 'all.xml', // path for .XMLtoFile
   route: {
     'ALL': {
@@ -56,7 +56,7 @@ sitemap = sitemap({
   },
 });
 
-sitemap.generate(app); // generate sitemap from express route
+sitemap.generate(app); // generate sitemap from express route, you can set generate inside sitemap({})
 
 sitemap.XMLtoFile(); // write this map to file
 

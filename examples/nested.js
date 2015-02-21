@@ -8,7 +8,7 @@
  * @license GPLv3
  */
 
-var sitemap = require('..'); // use require('express-sitemap') instead
+var map = require('..'); // use require('express-sitemap') instead
 var express = require('express');
 var father = express();
 var child0 = express.Router();
@@ -83,12 +83,10 @@ father.get('/ciao0', function(req, res) {
   res.send('hello /ciao2');
 });
 
-var map = sitemap({
-  sitemap: 'nested.xml'
-});
+var sitemap = map();
 
-map.generate4(father, [ '/0', '/1', '/c' ]); // generate sitemap with express router path
+sitemap.generate4(father, [ '/0', '/1', '/c' ]); // generate sitemap with express router path
 
-map.XMLtoFile();
+sitemap.XMLtoFile('nested.xml');
 
 console.log('file wrote');

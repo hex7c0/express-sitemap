@@ -45,7 +45,7 @@ app.all('/', function(req, res) {
 /*
  * sitemap
  */
-sitemap = sitemap({
+sitemap({
   sitemap: 'normal.xml', // path for .XMLtoFile
   robots: 'normal.txt', // path for .TXTtoFile
   generate: app, // option or function, is the same
@@ -63,8 +63,6 @@ sitemap = sitemap({
       changefreq: 'never',
     }
   },
-});
-
-sitemap.toFile();
+}).toFile(); // write sitemap.xml and robots.txt
 
 console.log('files wrote');

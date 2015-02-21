@@ -39,15 +39,18 @@ child.get('/', function(req, res) {
   res.send('hello /all');
 });
 
-father.use(child);
-father.listen(3000);
-console.log('starting "hello world" on port 3000');
+father.use('/c', child);
+
 var sitemap = map();
 
-console.log('Father');
-console.log(sitemap.generate(father));
+console.log('Child');
+console.log(sitemap.generate4(child));
 sitemap.reset();
 
-console.log('Child');
-console.log(sitemap.generate(child));
+console.log('Father without Router path');
+console.log(sitemap.generate4(father)); // should return {} because no Router path
+sitemap.reset();
+
+console.log('Father with Router path');
+console.log(sitemap.generate4(father, [ '/c' ])); // should return {} because express callback aren't supported yet
 sitemap.reset();
