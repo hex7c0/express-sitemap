@@ -28,7 +28,9 @@
     "tickle": "1.1.8"
   },
   "devDependencies": {
+    "coveralls": "~2.11",
     "express": "~4.11",
+    "istanbul": "~0.3",
     "mocha": "~2.1",
     "grunt-contrib-clean": "~0.6",
     "grunt-contrib-uglify": "~0.8",
@@ -41,7 +43,8 @@
   },
   "scripts": {
     "prepublish": "npm prune",
-    "test": "npm run express3 && npm install express@4 && npm run express4",
+    "test": "npm run express4 && npm install express@3 && npm run express3",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- test/*",
     "express3": "mocha --bail --check-leaks",
     "express4": "mocha test/*"
   },
