@@ -164,9 +164,13 @@ Sitemap.prototype.generate4 = function(app, router, store) {
       for (var j = 0, jj = router.length; j < jj; j++) {
         if (route.regexp.test(router[j])) {
           handle = router[j];
+          break;
         }
       }
       if (handle) {
+        if (handle === '/') {
+          handle = ''; // fix for default `app.use()`
+        }
         var route = this.generate4(route.handle, router, false); // recursive
         if (route) {
           route = Object.keys(route);
