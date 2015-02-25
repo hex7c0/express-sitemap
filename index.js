@@ -14,6 +14,7 @@
  */
 // import
 var fs = require('fs');
+var setHeaders = require('setheaders').setWritableHeader;
 
 /*
  * functions
@@ -43,7 +44,8 @@ function write(data, file) {
  */
 function stream(data, res, header) {
 
-  return res.header('Content-Type', header).send(data);
+  return setHeaders(res, 'Content-Type', header) === true ? res.send(data)
+    : null;
 }
 
 /**
