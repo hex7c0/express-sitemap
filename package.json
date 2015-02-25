@@ -25,7 +25,7 @@
   },
   "main": "index.min.js",
   "dependencies": {
-    "tickle": "1.1.8"
+    "tickle": "1.1.9"
   },
   "devDependencies": {
     "coveralls": "~2.11",
