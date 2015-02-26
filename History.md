@@ -1,3 +1,11 @@
+v1.5.3 / 2015-02-25
+==================
+
+  * Fix nested Router when path is "/"
+  * Add `setheaders`@0.1.1
+  * Update `tickle`@1.1.9
+  * `coveralls` test
+
 v1.5.2 / 2015-02-21
 ==================
 
