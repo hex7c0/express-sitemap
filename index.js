@@ -21,7 +21,7 @@ var setHeaders = require('setheaders').setWritableHeader;
  */
 /**
  * write data to file
- * 
+ *
  * @function write
  * @param {String} data - created xml or robots.txt
  * @param {String} file - name of file
@@ -36,7 +36,7 @@ function write(data, file) {
 
 /**
  * stream data to web
- * 
+ *
  * @function stream
  * @param {String} data - created xml or robots.txt
  * @param {Object} res - response to client
@@ -50,7 +50,7 @@ function stream(data, res, header) {
 
 /**
  * export class
- * 
+ *
  * @exports sitemap
  * @function sitemap
  * @return {Sitemap}
@@ -66,7 +66,7 @@ module.exports = sitemap;
  */
 /**
  * Sitemap class
- * 
+ *
  * @class Sitemap
  * @param {Object} options - various options. Check README.md
  * @return {Object}
@@ -115,7 +115,7 @@ function Sitemap(options) {
 
 /**
  * wrapper for generate sitemap object
- * 
+ *
  * @function generate3
  * @param {Object} app - express app
  * @param {Object} [router] - express nested router path
@@ -140,7 +140,7 @@ Sitemap.prototype.generate = function(app, router, store) {
 
 /**
  * generate sitemap object for express4. GET only
- * 
+ *
  * @function generate4
  * @param {Object} app - express app
  * @param {Object} [router] - express nested router path
@@ -194,7 +194,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
 
 /**
  * generate sitemap object for express3. GET only
- * 
+ *
  * @function generate3
  * @param {Object} app - express app
  * @param {Object} [router] - express nested router path
@@ -221,7 +221,7 @@ Sitemap.prototype.generate3 = function(app, router, store) {
 
 /**
  * generate sitemap object with tickle
- * 
+ *
  * @function tickle
  * @return {Object}
  */
@@ -238,7 +238,7 @@ Sitemap.prototype.tickle = function() {
 
 /**
  * reset
- * 
+ *
  * @function reset
  * @return {Object}
  */
@@ -261,7 +261,7 @@ Sitemap.prototype.reset = function() {
 
 /**
  * create xml from sitemap
- * 
+ *
  * @function xml
  * @return {String}
  */
@@ -270,7 +270,7 @@ Sitemap.prototype.xml = function() {
   var route = this.my.route;
   var sitemap = this.map;
   var data = '<?xml version="1.0" encoding="UTF-8"?>';
-  data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
   for ( var uri in sitemap) {
     var rr = route.ALL || route[uri] || false;
     if (!rr || (!rr.disallow && !rr.hide)) {
@@ -285,6 +285,24 @@ Sitemap.prototype.xml = function() {
         if (rr.priority !== undefined) {
           data += '<priority>' + rr.priority + '</priority>';
         }
+        if (rr.alternatepages !== undefined) {
+          var pages = rr.alternatepages;
+          for ( var position in pages ) {
+            data += '<xhtml:link';
+            for ( var attribute in pages[position]) {
+              if (attribute == 'rel') {
+                data += ' rel="' + pages[position][attribute] + '"';
+              }
+              if (attribute == 'hreflang') {
+                data += ' hreflang="' + pages[position][attribute] + '"';
+              }
+              if (attribute == 'href') {
+                data += ' href="' + pages[position][attribute] + '"';
+              }
+            }
+            data += ' />';
+          }
+        }
       }
       data += '</url>';
     }
@@ -295,7 +313,7 @@ Sitemap.prototype.xml = function() {
 
 /**
  * create txt from sitemap
- * 
+ *
  * @function robots
  * @return {String}
  */
@@ -324,7 +342,7 @@ Sitemap.prototype.txt = function() {
 
 /**
  * alias for write sitemap to file
- * 
+ *
  * @function XMLtoFile
  * @param {String} [path] override class location
  * @return
@@ -336,7 +354,7 @@ Sitemap.prototype.XMLtoFile = function(path) {
 
 /**
  * alias for write robots.txt to file
- * 
+ *
  * @function TXTtoFile
  * @param {String} [path] override class location
  * @return
@@ -348,7 +366,7 @@ Sitemap.prototype.TXTtoFile = function(path) {
 
 /**
  * alias for write both to files
- * 
+ *
  * @function toFile
  * @return
  */
@@ -361,7 +379,7 @@ Sitemap.prototype.toFile = function() {
 
 /**
  * alias for stream sitemap to web
- * 
+ *
  * @function XMLtoWeb
  * @param {Object} res - response to client
  * @return
@@ -373,7 +391,7 @@ Sitemap.prototype.XMLtoWeb = function(res) {
 
 /**
  * alias for stream robots.txt to web
- * 
+ *
  * @function TXTtoWeb
  * @param {Object} res - response to client
  * @return
@@ -385,7 +403,7 @@ Sitemap.prototype.TXTtoWeb = function(res) {
 
 /**
  * check xml cache hit or refresh
- * 
+ *
  * @function _XMLcache
  * @return {string}
  */
@@ -404,7 +422,7 @@ Sitemap.prototype._XMLcache = function() {
 
 /**
  * check txt cache hit or refresh
- * 
+ *
  * @function _TXTcache
  * @return {string}
  */

@@ -145,6 +145,10 @@ sitemap.TXTtoWeb(res);
   - `lastmod` - **Date** Integrity not controlled
   - `changefreq` - **String** Integrity not controlled
   - `priority` - **Float** Integrity not controlled
+  - `alternatepages` - **Array** Add alternate language pages related to this [documentation](https://support.google.com/webmasters/answer/2620865)
+    - `rel` - **String** Integrity not controlled
+    - `hreflang` - **String** Integrity not controlled
+    - `href` - **String** Integrity not controlled
   - `disallow` - **Boolean** Flag for disallow this route from parsing, and save into `robots.txt` *(default "false")*
   - `hide` - **Boolean** Flag for hide this route from globally parsing (no .xml or .txt) *(default "false")*
  - `map` - **Object** Force route (<loc>) detection and building *(default "disabled")*
