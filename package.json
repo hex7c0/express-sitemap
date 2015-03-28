@@ -45,7 +45,9 @@
   "scripts": {
     "prepublish": "npm prune",
     "test": "npm run express4 && npm install express@3 && npm run express3",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- test/*",
+    "test-cov": "npm run test-cov4 && npm install express@3 && npm run test-cov3",
+    "test-cov3": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly",
+    "test-cov4": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- test/*",
     "express3": "mocha --bail --check-leaks",
     "express4": "mocha test/*"
   },
