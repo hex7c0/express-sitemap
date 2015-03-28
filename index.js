@@ -12,7 +12,6 @@
 /*
  * initialize module
  */
-// import
 var fs = require('fs');
 var setHeaders = require('setheaders').setWritableHeader;
 
@@ -21,7 +20,7 @@ var setHeaders = require('setheaders').setWritableHeader;
  */
 /**
  * write data to file
- *
+ * 
  * @function write
  * @param {String} data - created xml or robots.txt
  * @param {String} file - name of file
@@ -36,7 +35,7 @@ function write(data, file) {
 
 /**
  * stream data to web
- *
+ * 
  * @function stream
  * @param {String} data - created xml or robots.txt
  * @param {Object} res - response to client
@@ -50,7 +49,7 @@ function stream(data, res, header) {
 
 /**
  * export class
- *
+ * 
  * @exports sitemap
  * @function sitemap
  * @return {Sitemap}
@@ -66,7 +65,7 @@ module.exports = sitemap;
  */
 /**
  * Sitemap class
- *
+ * 
  * @class Sitemap
  * @param {Object} options - various options. Check README.md
  * @return {Object}
@@ -115,7 +114,7 @@ function Sitemap(options) {
 
 /**
  * wrapper for generate sitemap object
- *
+ * 
  * @function generate3
  * @param {Object} app - express app
  * @param {Object} [router] - express nested router path
@@ -140,7 +139,7 @@ Sitemap.prototype.generate = function(app, router, store) {
 
 /**
  * generate sitemap object for express4. GET only
- *
+ * 
  * @function generate4
  * @param {Object} app - express app
  * @param {Object} [router] - express nested router path
@@ -150,7 +149,7 @@ Sitemap.prototype.generate = function(app, router, store) {
 Sitemap.prototype.generate4 = function(app, router, store) {
 
   var map = Object.create(null);
-  var routing = app._router !== undefined ? app._router.stack : app.stack;
+  var routing = app._router ? app._router.stack : app.stack;
 
   for (var i = 0, ii = routing.length; i < ii; i++) {
     var route = routing[i];
@@ -194,7 +193,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
 
 /**
  * generate sitemap object for express3. GET only
- *
+ * 
  * @function generate3
  * @param {Object} app - express app
  * @param {Object} [router] - express nested router path
@@ -221,13 +220,13 @@ Sitemap.prototype.generate3 = function(app, router, store) {
 
 /**
  * generate sitemap object with tickle
- *
+ * 
  * @function tickle
  * @return {Object}
  */
 Sitemap.prototype.tickle = function() {
 
-  if (global.tickle !== undefined && global.tickle.route !== undefined) {
+  if (global.tickle && global.tickle.route) {
     for ( var route in global.tickle.route) {
       this.map[route] = []; // don't know type of Verb
     }
@@ -238,7 +237,7 @@ Sitemap.prototype.tickle = function() {
 
 /**
  * reset
- *
+ * 
  * @function reset
  * @return {Object}
  */
@@ -261,7 +260,7 @@ Sitemap.prototype.reset = function() {
 
 /**
  * create xml from sitemap
- *
+ * 
  * @function xml
  * @return {String}
  */
@@ -269,51 +268,69 @@ Sitemap.prototype.xml = function() {
 
   var route = this.my.route;
   var sitemap = this.map;
-  var data = '<?xml version="1.0" encoding="UTF-8"?>';
-  data += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+
+  var head = '<?xml version="1.0" encoding="UTF-8"?>';
+  head += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  var lang = ' xmlns:xhtml="http://www.w3.org/1999/xhtml">';
+  var langFlag = false;
+  var tail = '</urlset>';
+  var data = '';
+
   for ( var uri in sitemap) {
     var rr = route.ALL || route[uri] || false;
     if (!rr || (!rr.disallow && !rr.hide)) {
       data += '<url><loc>' + this.my.url + uri + '</loc>';
+
       if (typeof rr === 'object') {
-        if (rr.lastmod !== undefined) {
+
+        // extra
+        if (rr.lastmod) {
           data += '<lastmod>' + rr.lastmod + '</lastmod>';
         }
-        if (rr.changefreq !== undefined) {
+        if (rr.changefreq) {
           data += '<changefreq>' + rr.changefreq + '</changefreq>';
         }
-        if (rr.priority !== undefined) {
+        if (rr.priority) {
           data += '<priority>' + rr.priority + '</priority>';
         }
-        if (rr.alternatepages !== undefined) {
+
+        // languages
+        if (rr.alternatepages) {
+          langFlag = true;
           var pages = rr.alternatepages;
-          for ( var position in pages ) {
+          for ( var position in pages) {
             data += '<xhtml:link';
             for ( var attribute in pages[position]) {
-              if (attribute == 'rel') {
+              if (attribute === 'rel') {
                 data += ' rel="' + pages[position][attribute] + '"';
               }
-              if (attribute == 'hreflang') {
+              if (attribute === 'hreflang') {
                 data += ' hreflang="' + pages[position][attribute] + '"';
               }
-              if (attribute == 'href') {
+              if (attribute === 'href') {
                 data += ' href="' + pages[position][attribute] + '"';
               }
             }
             data += ' />';
           }
         }
+
       }
+
       data += '</url>';
     }
   }
-  data += '</urlset>';
-  return data;
+
+  if (langFlag === true) { // fix right xml head
+    head = head.substr(0, head.length - 1) + lang;
+  }
+
+  return head + data + tail;
 };
 
 /**
  * create txt from sitemap
- *
+ * 
  * @function robots
  * @return {String}
  */
@@ -322,7 +339,9 @@ Sitemap.prototype.txt = function() {
   var temp = true;
   var route = this.my.route;
   var sitemap = this.map;
+
   var data = 'User-agent: *\n';
+
   for ( var uri in sitemap) {
     var rr = route[uri];
     if (route.ALL && route.ALL.disallow && !route.ALL.hide) {
@@ -342,7 +361,7 @@ Sitemap.prototype.txt = function() {
 
 /**
  * alias for write sitemap to file
- *
+ * 
  * @function XMLtoFile
  * @param {String} [path] override class location
  * @return
@@ -354,7 +373,7 @@ Sitemap.prototype.XMLtoFile = function(path) {
 
 /**
  * alias for write robots.txt to file
- *
+ * 
  * @function TXTtoFile
  * @param {String} [path] override class location
  * @return
@@ -366,7 +385,7 @@ Sitemap.prototype.TXTtoFile = function(path) {
 
 /**
  * alias for write both to files
- *
+ * 
  * @function toFile
  * @return
  */
@@ -379,7 +398,7 @@ Sitemap.prototype.toFile = function() {
 
 /**
  * alias for stream sitemap to web
- *
+ * 
  * @function XMLtoWeb
  * @param {Object} res - response to client
  * @return
@@ -391,7 +410,7 @@ Sitemap.prototype.XMLtoWeb = function(res) {
 
 /**
  * alias for stream robots.txt to web
- *
+ * 
  * @function TXTtoWeb
  * @param {Object} res - response to client
  * @return
@@ -403,7 +422,7 @@ Sitemap.prototype.TXTtoWeb = function(res) {
 
 /**
  * check xml cache hit or refresh
- *
+ * 
  * @function _XMLcache
  * @return {string}
  */
@@ -422,7 +441,7 @@ Sitemap.prototype._XMLcache = function() {
 
 /**
  * check txt cache hit or refresh
- *
+ * 
  * @function _TXTcache
  * @return {string}
  */
