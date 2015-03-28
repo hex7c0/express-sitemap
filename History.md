@@ -1,3 +1,8 @@
+v1.5.4 / 2015-03-28
+==================
+
+  * Add functionality to indicate alternate language pages in sitemap (@Twissi)
+
 v1.5.3 / 2015-02-25
 ==================
 

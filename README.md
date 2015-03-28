@@ -93,7 +93,7 @@ sitemap.generate(app);
 
 generate sitemap from express 4.x configuration. Add an array with Router path if you want use nested callback
 ```js
-sitemap.generate4(app, [Router]);
+sitemap.generate4(app [, Router]);
 ```
 
 generate sitemap from express 3.x configuration
