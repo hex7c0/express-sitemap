@@ -11,7 +11,6 @@
 /*
  * initialize module
  */
-// import
 var sitemap = require('..')();
 var express = require('express');
 var request = require('supertest');

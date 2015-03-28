@@ -11,7 +11,6 @@
 /*
  * initialize module
  */
-// import
 var sitemap = require('..');
 var app = require('express')();
 var assert = require('assert');
