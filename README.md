@@ -141,6 +141,7 @@ sitemap.TXTtoWeb(res);
  - `port` - **Number** Website Port *(default "80")*
  - `sitemap` - **String** Name of sitemap file *(default "sitemap.xml")*
  - `robots` - **String** Name of robots file *(default "robots.txt")*
+ - `sitemapSubmission` - **String** Set `Sitemap` absolute location into robots *(default "disable")*
  - `route` - **Object** Add extra information to sitemap related to this [documentation](http://www.sitemaps.org/protocol.html#xmlTagDefinitions) *(default "disabled")*
   - `lastmod` - **Date** Integrity not controlled
   - `changefreq` - **String** Integrity not controlled

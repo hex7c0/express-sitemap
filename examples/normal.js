@@ -49,6 +49,7 @@ sitemap({
   sitemap: 'normal.xml', // path for .XMLtoFile
   robots: 'normal.txt', // path for .TXTtoFile
   generate: app, // option or function, is the same
+  sitemapSubmission: '/normal.xml', // path of sitemap into robots
   route: { // specific option for some route
     '/': {
       lastmod: '2014-06-19',
