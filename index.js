@@ -84,7 +84,9 @@ function Sitemap(options) {
     sitemap: String(opt.sitemap || 'sitemap.xml'),
     robots: String(opt.robots || 'robots.txt'),
     route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
-    cache: Number(opt.cache) || false
+    cache: Number(opt.cache) || false,
+    sitemapSubmission: opt.sitemapSubmission ? String(opt.sitemapSubmission)
+      : false
   };
 
   this.my.sitemap = resolve(this.my.sitemap);
@@ -355,6 +357,9 @@ Sitemap.prototype.txt = function() {
   }
   if (temp) {
     data += 'Disallow: \n';
+  }
+  if (this.my.sitemapSubmission) {
+    data += 'Sitemap: ' + this.my.url + this.my.sitemapSubmission;
   }
   return data;
 };
