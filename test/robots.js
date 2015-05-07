@@ -30,12 +30,10 @@ describe('robots', function() {
     app.all('/', function(req, res) {
 
       res.send('hello /');
-    });
-    app.get('/a', function(req, res) {
+    }).get('/a', function(req, res) {
 
       res.send('hello /a');
-    });
-    app.post('/A', function(req, res) {
+    }).post('/A', function(req, res) {
 
       res.send('hello /A');
     });
@@ -98,6 +96,33 @@ describe('robots', function() {
 
             assert.equal(err, null);
             assert.equal(data, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
+            fs.unlink(txt, done);
+          });
+        }, 50);
+      });
+    });
+
+    describe('sitemapSubmission', function() {
+
+      it('should write Robots to file', function(done) {
+
+        sitemap({
+          sitemapSubmission: '/foo',
+          generate: app
+        }).TXTtoFile(txt);
+        done();
+      });
+      it('should read this file', function(done) {
+
+        setTimeout(function() {
+
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.equal(err, null);
+            assert.equal(data,
+              'User-agent: *\nDisallow: \nSitemap: http://127.0.0.1/foo');
             fs.unlink(txt, done);
           });
         }, 50);
