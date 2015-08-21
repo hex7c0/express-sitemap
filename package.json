@@ -49,5 +49,5 @@
     "express3": "mocha --bail --check-leaks",
     "express4": "mocha test/*"
   },
-  "license": "GPLv3"
+  "license": "GPL-3.0"
 }
