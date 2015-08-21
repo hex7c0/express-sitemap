@@ -25,7 +25,7 @@
   },
   "main": "index.min.js",
   "dependencies": {
-    "tickle": "1.2.0",
+    "tickle": "1.2.1",
     "setheaders": "0.1.1"
   },
   "devDependencies": {
