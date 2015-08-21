@@ -3,7 +3,7 @@
  * @file express-sitemap main
  * @module express-sitemap
  * @subpackage main
- * @version 1.5.0
+ * @version 1.6.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -153,7 +153,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
   var map = Object.create(null);
   var routing = app._router ? app._router.stack : app.stack;
 
-  for (var i = 0, ii = routing.length; i < ii; i++) {
+  for (var i = 0, ii = routing.length; i < ii; ++i) {
     var route = routing[i];
 
     if (route.route) { // direct
@@ -164,7 +164,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
 
     } else if (route.handle && route.handle.stack && router) { // router
       var handle;
-      for (var j = 0, jj = router.length; j < jj; j++) {
+      for (var j = 0, jj = router.length; j < jj; ++j) {
         if (route.regexp.test(router[j])) {
           handle = router[j];
           break;
@@ -177,7 +177,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
         var route = this.generate4(route.handle, router, false); // recursive
         if (route) {
           route = Object.keys(route);
-          for (j = 0, jj = route.length; j < jj; j++) {
+          for (j = 0, jj = route.length; j < jj; ++j) {
             map[handle + route[j]] = [ 'get' ];
           }
         }
@@ -207,7 +207,7 @@ Sitemap.prototype.generate3 = function(app, router, store) {
   var map = Object.create(null);
   var routing = app.routes.get;
 
-  for (var i = 0, ii = routing.length; i < ii; i++) {
+  for (var i = 0, ii = routing.length; i < ii; ++i) {
     var route = routing[i];
     if (route && route.path) {
       map[route.path] = [ 'get' ];

@@ -26,12 +26,10 @@ describe('generate', function() {
     app.all('/', function(req, res) {
 
       res.send('hello /');
-    });
-    app.get('/a', function(req, res) {
+    }).get('/a', function(req, res) {
 
       res.send('hello /admin');
-    });
-    app.post('/A', function(req, res) {
+    }).post('/A', function(req, res) {
 
       res.send('hello /admin');
     });
