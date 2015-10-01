@@ -1,5 +1,5 @@
 {
-  "version": "1.6.0",
+  "version": "1.6.1",
   "name": "express-sitemap",
   "description": "sitemap and robots for expressjs",
   "keywords": [
@@ -9,7 +9,7 @@
     "express"
   ],
   "preferGlobal": false,
-  "homepage": "http://supergiovane.tk/#/express-sitemap",
+  "homepage": "https://github.com/hex7c0/express-sitemap",
   "author": {
     "name": "hex7c0",
     "email": "hex7c0@gmail.com",

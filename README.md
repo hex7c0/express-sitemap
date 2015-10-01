@@ -1,4 +1,4 @@
-# [express-sitemap](http://supergiovane.tk/#/express-sitemap)
+# [express-sitemap](https://github.com/hex7c0/express-sitemap)
 
 [![NPM version](https://img.shields.io/npm/v/express-sitemap.svg)](https://www.npmjs.com/package/express-sitemap)
 [![Linux Status](https://img.shields.io/travis/hex7c0/express-sitemap.svg?label=linux)](https://travis-ci.org/hex7c0/express-sitemap)
@@ -6,7 +6,7 @@
 [![Dependency Status](https://img.shields.io/david/hex7c0/express-sitemap.svg)](https://david-dm.org/hex7c0/express-sitemap)
 [![Coveralls](https://img.shields.io/coveralls/hex7c0/express-sitemap.svg)](https://coveralls.io/r/hex7c0/express-sitemap)
 
-Sitemap and Robots for [expressjs](http://expressjs.com/)
+Sitemap and Robots for [expressjs](http://expressjs.com/) 3 and 4
 
 ## Installation
 
