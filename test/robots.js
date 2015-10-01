@@ -64,7 +64,7 @@ describe('robots', function() {
             encoding: 'utf8'
           }, function(err, data) {
 
-            assert.equal(err, null);
+            assert.ifError(err);
             assert.equal(data, 'User-agent: *\nDisallow: /\n', 'disallow all');
             fs.unlink(txt, done);
           });
@@ -94,7 +94,7 @@ describe('robots', function() {
             encoding: 'utf8'
           }, function(err, data) {
 
-            assert.equal(err, null);
+            assert.ifError(err);
             assert.equal(data, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
             fs.unlink(txt, done);
           });
@@ -120,7 +120,7 @@ describe('robots', function() {
             encoding: 'utf8'
           }, function(err, data) {
 
-            assert.equal(err, null);
+            assert.ifError(err);
             assert.equal(data,
               'User-agent: *\nDisallow: \nSitemap: http://127.0.0.1/foo');
             fs.unlink(txt, done);
@@ -155,7 +155,7 @@ describe('robots', function() {
       request(app).get('/robots.txt').expect(200).expect('Content-Type',
         /text\/plain/).end(function(err, res) {
 
-        assert.equal(err, null);
+        assert.ifError(err);
         assert.equal(res.text, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
         done();
       });
@@ -165,7 +165,7 @@ describe('robots', function() {
       request(app).get('/robots.txt').expect(200).expect('Content-Type',
         /text\/plain/).end(function(err, res) {
 
-        assert.equal(err, null);
+        assert.ifError(err);
         assert.equal(res.text, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
         done();
       });
