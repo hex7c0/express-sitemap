@@ -1,14 +1,20 @@
+v1.6.3 / 2015-01-30
+==================
+
+  * Tested against `node`@5.3
+  * Support for callback in *ToFile functions
+
 v1.6.2 / 2015-11-28
 ==================
 
-  * Test `node`@5
+  * Tested against `node`@5
   * Update `setheaders`@0.1.5
   * Update `tickle`@1.2.3
 
 v1.6.1 / 2015-10-01
 ==================
 
-  * Test `node`@4
+  * Tested against `node`@4
   * Update `setheaders`@0.1.4
   * Update `tickle`@1.2.2
 
@@ -104,7 +110,7 @@ v1.3.1 / 2014-08-04
 v1.3.0 / 2014-07-27
 ==================
 
-  * Test "node": ">=0.10.0" only
+  * Tested against "node": ">=0.10.0" only
   * Using task runner `grunt`
   * Using test framework `mocha`
   * Testing script will be put inside "test/"
