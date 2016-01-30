@@ -18,6 +18,9 @@ environment:
     - nodejs_version: "4.1"
     - nodejs_version: "4.2"
     - nodejs_version: "5.0"
+    - nodejs_version: "5.1"
+    - nodejs_version: "5.3"
+    - nodejs_version: "5.5"
 install:
   - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
   - npm install
