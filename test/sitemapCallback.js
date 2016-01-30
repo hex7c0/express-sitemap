@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @file sitemap test
+ * @file sitemap callback test
  * @module express-sitemap
  * @subpackage test
  * @version 0.0.1
@@ -21,7 +21,7 @@ var request = require('supertest');
  * test module
  */
 describe(
-  'sitemap',
+  'sitemapCallback',
   function() {
 
     // no XML parsing
@@ -47,17 +47,6 @@ describe(
       done();
     });
 
-    it('should check head string', function(done) {
-
-      assert.equal(/"UTF-8"/.test(head), true);
-      assert.equal(
-        /xmlns:xhtml="http:\/\/www.w3.org\/1999\/xhtml">/.test(head), false);
-      assert.equal(/"UTF-8"/.test(lang), true);
-      assert.equal(
-        /xmlns:xhtml="http:\/\/www.w3.org\/1999\/xhtml">/.test(lang), true);
-      done();
-    });
-
     describe(
       'file',
       function() {
@@ -66,8 +55,7 @@ describe(
 
           sitemap({
             generate: app
-          }).XMLtoFile(xml);
-          done();
+          }).XMLtoFile(xml, done);
         });
         it('should read sitemap', function(done) {
 
@@ -95,8 +83,7 @@ describe(
                 priority: 1.0
               }
             }
-          }).XMLtoFile(xml);
-          done();
+          }).XMLtoFile(xml, done);
         });
         it('should read sitemap', function(done) {
 
@@ -138,8 +125,7 @@ describe(
                 hide: true
               },
             }
-          }).XMLtoFile(xml);
-          done();
+          }).XMLtoFile(xml, done);
         });
         it(
           'should read sitemap',
@@ -189,8 +175,7 @@ describe(
                 } ]
               }
             }
-          }).XMLtoFile(xml);
-          done();
+          }).XMLtoFile(xml, done);
         });
         it(
           'should read sitemap',
@@ -236,8 +221,7 @@ describe(
                 hide: true
               },
             }
-          }).XMLtoFile(xml);
-          done();
+          }).XMLtoFile(xml, done);
         });
         it('should read sitemap', function(done) {
 
@@ -254,65 +238,4 @@ describe(
           }, 50);
         });
       });
-
-    describe('web', function() {
-
-      var rs = '';
-      rs += '<url><loc>http://127.0.0.1/foo</loc>';
-      rs += '<lastmod>2014-00-00</lastmod><changefreq>always</changefreq>';
-      rs += '<priority>1</priority></url>';
-      rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
-
-      before(function(done) {
-
-        var map = sitemap({
-          cache: 60,
-          map: {
-            '/foo': [ 'get' ],
-            '/foo2': [ 'get', 'post' ],
-            '/admin': [ 'get' ],
-            '/backdoor': [],
-          },
-          route: {
-            '/foo': {
-              lastmod: '2014-00-00',
-              changefreq: 'always',
-              priority: 1.0
-            },
-            '/admin': {
-              disallow: true
-            },
-            '/backdoor': {
-              hide: true
-            },
-          }
-        });
-        app.get('/sitemap.xml', function(req, res) {
-
-          map.XMLtoWeb(res);
-        });
-        done();
-      });
-
-      it('should get sitemap from web', function(done) {
-
-        request(app).get('/sitemap.xml').expect(200).expect('Content-Type',
-          /application\/xml/).end(function(err, res) {
-
-          assert.ifError(err);
-          assert.equal(res.text, head + rs + tail);
-          done();
-        });
-      });
-      it('should get sitemap from web cache', function(done) {
-
-        request(app).get('/sitemap.xml').expect(200).expect('Content-Type',
-          /application\/xml/).end(function(err, res) {
-
-          assert.ifError(err);
-          assert.equal(res.text, head + rs + tail);
-          done();
-        });
-      });
-    });
   });
