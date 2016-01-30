@@ -24,10 +24,12 @@ var setHeaders = require('setheaders').setWritableHeader;
  * @function write
  * @param {String} data - created xml or robots.txt
  * @param {String} file - name of file
+ * @param {Function} [next] optional callback
+ * @return void
  */
-function write(data, file) {
+function write(data, file, next) {
 
-  return fs.writeFile(file, data, function(err) {
+  return fs.writeFile(file, data, next || function(err) {
 
     return err !== null ? console.error(err) : null;
   });
@@ -369,11 +371,12 @@ Sitemap.prototype.txt = function() {
  * 
  * @function XMLtoFile
  * @param {String} [path] override class location
+ * @param {Function} [next] optional callback
  * @return
  */
-Sitemap.prototype.XMLtoFile = function(path) {
+Sitemap.prototype.XMLtoFile = function(path, next) {
 
-  return write(this._XMLwork(), path || this.my.sitemap);
+  return write(this._XMLwork(), path || this.my.sitemap, next);
 };
 
 /**
@@ -381,23 +384,25 @@ Sitemap.prototype.XMLtoFile = function(path) {
  * 
  * @function TXTtoFile
  * @param {String} [path] override class location
+ * @param {Function} [next] optional callback
  * @return
  */
-Sitemap.prototype.TXTtoFile = function(path) {
+Sitemap.prototype.TXTtoFile = function(path, next) {
 
-  return write(this._TXTwork(), path || this.my.robots);
+  return write(this._TXTwork(), path || this.my.robots, next);
 };
 
 /**
  * alias for write both to files
  * 
  * @function toFile
+ * @param {Function} [next] optional callback
  * @return
  */
-Sitemap.prototype.toFile = function() {
+Sitemap.prototype.toFile = function(next) {
 
-  write(this._XMLwork(), this.my.sitemap);
-  write(this._TXTwork(), this.my.robots);
+  write(this._XMLwork(), this.my.sitemap, next);
+  write(this._TXTwork(), this.my.robots, next);
   return;
 };
 
