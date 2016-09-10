@@ -29,7 +29,6 @@
     "setheaders": "0.1.6"
   },
   "devDependencies": {
-    "coveralls": "~2.11",
     "express": "~4.14",
     "grunt-contrib-clean": "~1.0",
     "grunt-contrib-uglify": "~2.0",

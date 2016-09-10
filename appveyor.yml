@@ -27,8 +27,12 @@ environment:
     - nodejs_version: "6.1"
     - nodejs_version: "6.3"
     - nodejs_version: "6.5"
+cache:
+  - node_modules
 install:
-  - ps: Update-NodeJsInstallation (Get-NodeJsLatestBuild $env:nodejs_version)
+  - ps: Install-Product node $env:nodejs_version
+  - if exist node_modules npm prune
+  - if exist node_modules npm rebuild
   - npm install
 build: off
 test_script:
