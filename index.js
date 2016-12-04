@@ -161,7 +161,7 @@ Sitemap.prototype.generate4 = function(app, router, store) {
     if (route.route) { // direct
       route = routing[i].route;
       if (route && route.methods && (route.methods.get || route.methods._all)) {
-        map[route.path] = [ 'get' ];
+        map[route.path.toString()] = [ 'get' ];
       }
 
     } else if (route.handle && route.handle.stack && router) { // router
@@ -212,7 +212,7 @@ Sitemap.prototype.generate3 = function(app, router, store) {
   for (var i = 0, ii = routing.length; i < ii; ++i) {
     var route = routing[i];
     if (route && route.path) {
-      map[route.path] = [ 'get' ];
+      map[route.path.toString()] = [ 'get' ];
     }
   }
 

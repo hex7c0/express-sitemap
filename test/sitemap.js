@@ -132,7 +132,7 @@ describe('sitemap', function() {
           },
           '/backdoor': {
             hide: true
-          },
+          }
         }
       }).XMLtoFile(xml);
       done();
@@ -219,7 +219,7 @@ describe('sitemap', function() {
           },
           '/backdoor': {
             hide: true
-          },
+          }
         }
       }).XMLtoFile(xml);
       done();
@@ -234,6 +234,114 @@ describe('sitemap', function() {
 
           assert.ifError(err);
           assert.deepEqual(data, head + tail);
+          fs.unlink(xml, done);
+        });
+      }, 50);
+    });
+    it('should write sitemap without "regex" hide', function(done) {
+
+      var map = {
+        '/foo': [ 'get' ],
+        '/foo2': [ 'get', 'post' ],
+        '/admin': [ 'get' ],
+        '/backdoor': [],
+        '/.-[0-9]+(\\/)$/': [ 'get' ]
+      };
+      map[/foo(\/)$/.toString()] = [ 'get' ];
+
+      var route = {
+        '/foo': {
+          lastmod: '2014-00-00',
+          changefreq: 'always',
+          priority: 1.0
+        },
+        '/admin': {
+          disallow: true
+        },
+        '/backdoor': {
+          hide: true
+        }
+      };
+
+      sitemap({
+        map: map,
+        route: route
+      }).XMLtoFile(xml);
+      done();
+    });
+    it('should read sitemap', function(done) {
+
+      setTimeout(function() {
+
+        fs.readFile(xml, {
+          encoding: 'utf8'
+        }, function(err, data) {
+
+          assert.ifError(err);
+          var rs = '';
+          rs += '<url><loc>http://127.0.0.1/foo</loc>';
+          rs += '<lastmod>2014-00-00</lastmod><changefreq>always</changefreq>';
+          rs += '<priority>1</priority></url>';
+          rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
+          rs += '<url><loc>http://127.0.0.1/.-[0-9]+(\\/)$/</loc></url>';
+          rs += '<url><loc>http://127.0.0.1/foo(\\/)$/</loc></url>';
+          assert.equal(data, head + rs + tail);
+          fs.unlink(xml, done);
+        });
+      }, 50);
+    });
+    it('should write sitemap with "regex" hide', function(done) {
+
+      var map = {
+        '/foo': [ 'get' ],
+        '/foo2': [ 'get', 'post' ],
+        '/admin': [ 'get' ],
+        '/backdoor': [],
+        '/.-[0-9]+(\\/)$/': [ 'get' ]
+      };
+      map[/foo(\/)$/.toString()] = [ 'get' ];
+
+      var route = {
+        '/foo': {
+          lastmod: '2014-00-00',
+          changefreq: 'always',
+          priority: 1.0
+        },
+        '/admin': {
+          disallow: true
+        },
+        '/backdoor': {
+          hide: true
+        },
+        '/.-[0-9]+(\\/)$/': {
+          hide: true
+        }
+      };
+      route[/foo(\/)$/.toString()] = {
+        hide: true
+      };
+
+      sitemap({
+        map: map,
+        route: route
+      }).XMLtoFile(xml);
+      done();
+    });
+    it('should read sitemap', function(done) {
+
+      setTimeout(function() {
+
+        fs.readFile(xml, {
+          encoding: 'utf8'
+        }, function(err, data) {
+
+          assert.ifError(err);
+          var rs = '';
+          rs += '<url><loc>http://127.0.0.1/foo</loc>';
+          rs += '<lastmod>2014-00-00</lastmod><changefreq>always</changefreq>';
+          rs += '<priority>1</priority></url>';
+          rs += '<url><loc>http://127.0.0.1/foo2</loc></url>';
+          assert.equal(data, head + rs + tail);
           fs.unlink(xml, done);
         });
       }, 50);
@@ -269,7 +377,7 @@ describe('sitemap', function() {
           },
           '/backdoor': {
             hide: true
-          },
+          }
         }
       });
       app.get('/sitemap.xml', function(req, res) {
