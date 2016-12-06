@@ -1,3 +1,10 @@
+v1.7.0 / 2016-12-06
+==================
+
+  * Tested against `node`@7
+  * Remove support for `node`@<4
+  * Transform regex path toString
+
 v1.6.5 / 2016-09-12
 ==================
 
