@@ -32,11 +32,11 @@
     "express": "~4.14",
     "grunt": "~1.0",
     "grunt-contrib-uglify": "~2.0",
-    "grunt-contrib-jshint": "~1.0",
+    "grunt-contrib-jshint": "~1.1",
     "grunt-endline": "~0.6",
     "grunt-safer-regex": "~0.0",
     "istanbul": "~0.4",
-    "mocha": "~3.0",
+    "mocha": "~3.2",
     "supertest": "~2.0"
   },
   "engines": {
