@@ -1,8 +1,7 @@
 'use strict';
 /**
- * @file write robots file
+ * @file write robots file with Allow route
  * @module express-sitemap
- * @subpackage examples
  * @version 0.0.1
  * @author hex7c0 <hex7c0@gmail.com>
  * @license GPLv3

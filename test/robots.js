@@ -18,6 +18,9 @@ var assert = require('assert');
 var fs = require('fs');
 var request = require('supertest');
 
+var txtWithAllRoutes = 'User-agent: *\nAllow: /user\nAllow: /user/hex7c0\n';
+var txtWithRightRoute = 'User-agent: *\nAllow: /user/hex7c0\n';
+
 /*
  * test module
  */
@@ -47,6 +50,118 @@ describe('robots', function() {
   });
 
   describe('file', function() {
+
+    describe('hideByRegexArray', function() {
+
+      var options;
+
+      before(function(done) {
+
+        options = {
+          map: {
+            '/user': [ 'get' ],
+            '/user/login': [ 'get' ],
+            '/user/logout': [ 'get' ],
+            '/user/account': [ 'get' ],
+            '/user/hex7c0': [ 'get' ],
+          },
+          route: {
+            '/user': { // not shown
+              allow: true
+            },
+            '/user/hex7c0': {
+              allow: true
+            }
+          }
+        };
+        done();
+      });
+
+      it('should write Robots to file with option a boolean', function(done) {
+
+        options.hideByRegex = true;
+        sitemap(options).TXTtoFile(txt);
+        done();
+      });
+      it('should read routes because option is a boolean', function(done) {
+
+        setTimeout(function() {
+
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.ifError(err);
+            assert.deepEqual(data, txtWithAllRoutes);
+            fs.unlink(txt, done);
+          });
+        }, 50);
+      });
+      it('should write Robots to file with option as object', function(done) {
+
+        options.hideByRegex = {
+          foo: 'bar'
+        };
+        sitemap(options).TXTtoFile(txt);
+        done();
+      });
+      it('should read routes because options is an object', function(done) {
+
+        setTimeout(function() {
+
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.ifError(err);
+            assert.deepEqual(data, txtWithAllRoutes);
+            fs.unlink(txt, done);
+          });
+        }, 50);
+      });
+      it('should write Robots to file with option an array of string',
+        function(done) {
+
+          options.hideByRegex = [ 'foobar' ];
+          sitemap(options).TXTtoFile(txt);
+          done();
+        });
+      it('should read routes because option is an array of string',
+        function(done) {
+
+          setTimeout(function() {
+
+            fs.readFile(txt, {
+              encoding: 'utf8'
+            }, function(err, data) {
+
+              assert.ifError(err);
+              assert.deepEqual(data, txtWithAllRoutes);
+              fs.unlink(txt, done);
+            });
+          }, 50);
+        });
+      it('should write right Robots to file', function(done) {
+
+        options.hideByRegex = [ /^\/user(\/(?!hex7c0).*)?$/ ];
+        sitemap(options).TXTtoFile(txt);
+        done();
+      });
+      it('should read right route', function(done) {
+
+        setTimeout(function() {
+
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.ifError(err);
+            assert.deepEqual(data, txtWithRightRoute);
+            fs.unlink(txt, done);
+          });
+        }, 50);
+      });
+    });
 
     describe('mapping', function() {
 

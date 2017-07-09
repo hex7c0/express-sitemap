@@ -2,8 +2,7 @@
 /**
  * @file express-sitemap main
  * @module express-sitemap
- * @subpackage main
- * @version 1.6.0
+ * @version 1.8.0
  * @author hex7c0 <hex7c0@gmail.com>
  * @copyright hex7c0 2014
  * @license GPLv3
@@ -80,9 +79,35 @@ function Sitemap(options) {
   var http = opt.http == 'https' ? 'https://' : 'http://';
   var url = String(opt.url || '127.0.0.1');
   var port = isNaN(opt.port) ? '' : ':' + Number(opt.port);
+  var hideByRegex = false;
+
+  if (Array.isArray(opt.hideByRegex) && opt.hideByRegex.length > 0) {
+    var hideByRegexArray = opt.hideByRegex;
+    var hideByRegexLength = hideByRegexArray.length;
+
+    /**
+     * Check if route is allowed by regex.
+     * 
+     * @return bool
+     */
+    hideByRegex = function(route) {
+
+      for (var i = 0; i < hideByRegexLength; ++i) {
+        try {
+          if (hideByRegexArray[i].test(route)) {
+            return true;
+          }
+        } catch (_) {
+          continue;
+        }
+      }
+      return false;
+    };
+  }
 
   this.my = {
     url: http + url + port,
+    hideByRegex: hideByRegex,
     sitemap: String(opt.sitemap || 'sitemap.xml'),
     robots: String(opt.robots || 'robots.txt'),
     route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
@@ -93,7 +118,7 @@ function Sitemap(options) {
 
   this.my.sitemap = resolve(this.my.sitemap);
   this.my.robots = resolve(this.my.robots);
-  this.map = typeof (opt.map) == 'object' ? opt.map : Object.create(null);
+  this.map = typeof (opt.map) === 'object' ? opt.map : Object.create(null);
 
   this._XMLwork = this.xml;
   this._TXTwork = this.txt;
@@ -271,6 +296,7 @@ Sitemap.prototype.reset = function() {
 Sitemap.prototype.xml = function() {
 
   var route = this.my.route;
+  var hideByRegex = this.my.hideByRegex;
   var sitemap = this.map;
 
   var head = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -282,6 +308,11 @@ Sitemap.prototype.xml = function() {
 
   for ( var uri in sitemap) {
     var rr = route.ALL || route[uri] || false;
+
+    if (hideByRegex !== false && hideByRegex(uri)) {
+      continue;
+    }
+
     if (!rr || (!rr.disallow && !rr.hide)) {
       data += '<url><loc>' + this.my.url + uri + '</loc>';
 
@@ -298,10 +329,10 @@ Sitemap.prototype.xml = function() {
           data += '<priority>' + rr.priority + '</priority>';
         }
 
-        // languages
-        if (rr.alternatepages) {
+        if (rr.alternatepages) { // languages
           langFlag = true;
           var pages = rr.alternatepages;
+
           for ( var position in pages) {
             data += '<xhtml:link';
             for ( var attribute in pages[position]) {
@@ -342,6 +373,7 @@ Sitemap.prototype.txt = function() {
 
   var temp = true;
   var route = this.my.route;
+  var hideByRegex = this.my.hideByRegex;
   var sitemap = this.map;
 
   var data = 'User-agent: *\n';
@@ -353,10 +385,17 @@ Sitemap.prototype.txt = function() {
       temp = false;
       data += 'Disallow: /\n';
       break;
+
     } else if (rr) {
+
+      if (hideByRegex !== false && hideByRegex(uri)) {
+        continue;
+      }
+
       if (rr.disallow && !rr.hide) {
         temp = false;
         data += 'Disallow: ' + uri + '\n';
+
       } else if (rr.allow) {
         temp = false;
         data += 'Allow: ' + uri + '\n';
