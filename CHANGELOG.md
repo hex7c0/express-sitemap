@@ -1,3 +1,11 @@
+v1.8.0 / 2017-07-09
+==================
+
+  * Add `hideByRegex` option (thanks to @r3wt)
+  * Add `allow` option inside `route` (thanks to @VictorienTardif)
+  * Update `setheaders`@0.3.0
+  * Update `tickle`@1.4.0
+
 v1.7.0 / 2016-12-06
 ==================
 
