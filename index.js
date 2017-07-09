@@ -348,21 +348,30 @@ Sitemap.prototype.txt = function() {
 
   for ( var uri in sitemap) {
     var rr = route[uri];
+
     if (route.ALL && route.ALL.disallow && !route.ALL.hide) {
       temp = false;
       data += 'Disallow: /\n';
       break;
-    } else if (rr && rr.disallow && !rr.hide) {
-      temp = false;
-      data += 'Disallow: ' + uri + '\n';
+    } else if (rr) {
+      if (rr.disallow && !rr.hide) {
+        temp = false;
+        data += 'Disallow: ' + uri + '\n';
+      } else if (rr.allow) {
+        temp = false;
+        data += 'Allow: ' + uri + '\n';
+      }
     }
   }
+
   if (temp) {
     data += 'Disallow: \n';
   }
+
   if (this.my.sitemapSubmission) {
     data += 'Sitemap: ' + this.my.url + this.my.sitemapSubmission;
   }
+
   return data;
 };
 

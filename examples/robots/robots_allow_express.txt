@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /p
+Disallow: /p/foo

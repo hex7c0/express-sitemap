@@ -36,11 +36,53 @@ describe('robots', function() {
     }).post('/A', function(req, res) {
 
       res.send('hello /A');
+    }).get('/b', function(req, res) {
+
+      res.send('hello /b');
+    }).post('/B', function(req, res) {
+
+      res.send('hello /B');
     });
     done();
   });
 
   describe('file', function() {
+
+    describe('mapping', function() {
+
+      it('should write Robots to file', function(done) {
+
+        sitemap({
+          map: {
+            '/p': [ 'get' ],
+            '/p/foo': [ 'get' ],
+          },
+          route: { // specific a custom route
+            '/p': {
+              allow: true
+            },
+            '/p/foo': {
+              disallow: true, // write this route to robots.txt
+            }
+          }
+        }).TXTtoFile(txt);
+        done();
+      });
+      it('should read this file', function(done) {
+
+        setTimeout(function() {
+
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.ifError(err);
+            assert.equal(data, 'User-agent: *\nAllow: /p\nDisallow: /p/foo\n');
+            fs.unlink(txt, done);
+          });
+        }, 50);
+      });
+    });
 
     describe('disallow all', function() {
 
@@ -102,6 +144,36 @@ describe('robots', function() {
       });
     });
 
+    describe('allow /admin', function() {
+
+      it('should write Robots to file', function(done) {
+
+        sitemap({
+          route: {
+            '/a': {
+              allow: true,
+            }
+          },
+          generate: app
+        }).TXTtoFile(txt);
+        done();
+      });
+      it('should read this file', function(done) {
+
+        setTimeout(function() {
+
+          fs.readFile(txt, {
+            encoding: 'utf8'
+          }, function(err, data) {
+
+            assert.ifError(err);
+            assert.equal(data, 'User-agent: *\nAllow: /a\n', 'allow /a');
+            fs.unlink(txt, done);
+          });
+        }, 50);
+      });
+    });
+
     describe('sitemapSubmission', function() {
 
       it('should write Robots to file', function(done) {
@@ -139,6 +211,9 @@ describe('robots', function() {
         route: {
           '/a': {
             disallow: true,
+          },
+          '/b': {
+            allow: true,
           }
         },
         generate: app
@@ -153,22 +228,26 @@ describe('robots', function() {
     it('should get robots from web', function(done) {
 
       request(app).get('/robots.txt').expect(200).expect('Content-Type',
-        /text\/plain/).end(function(err, res) {
+        /text\/plain/).end(
+        function(err, res) {
 
-        assert.ifError(err);
-        assert.equal(res.text, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
-        done();
-      });
+          assert.ifError(err);
+          assert.equal(res.text, 'User-agent: *\nDisallow: /a\nAllow: /b\n',
+            'disallow /a');
+          done();
+        });
     });
     it('should get robots from web cache', function(done) {
 
       request(app).get('/robots.txt').expect(200).expect('Content-Type',
-        /text\/plain/).end(function(err, res) {
+        /text\/plain/).end(
+        function(err, res) {
 
-        assert.ifError(err);
-        assert.equal(res.text, 'User-agent: *\nDisallow: /a\n', 'disallow /a');
-        done();
-      });
+          assert.ifError(err);
+          assert.equal(res.text, 'User-agent: *\nDisallow: /a\nAllow: /b\n',
+            'disallow /a');
+          done();
+        });
     });
   });
 });

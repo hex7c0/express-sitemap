@@ -150,7 +150,8 @@ sitemap.TXTtoWeb(res);
     - `rel` - **String** Integrity not controlled
     - `hreflang` - **String** Integrity not controlled
     - `href` - **String** Integrity not controlled
-  - `disallow` - **Boolean** Flag for disallow this route from parsing, and save into `robots.txt` *(default "false")*
+  - `allow` - **Boolean** Flag for "allow" this route from parsing, and save into `robots.txt` *(default "null")*
+  - `disallow` - **Boolean** Flag for "disallow" this route from parsing, and save into `robots.txt` *(default "null")*
   - `hide` - **Boolean** Flag for hide this route from globally parsing (no .xml or .txt) *(default "false")*
  - `map` - **Object** Force route (<loc>) detection and building *(default "disabled")*
  - `generate` - **Object** Fastly generate sitemap from express app *(default "disabled")*
