@@ -25,24 +25,28 @@
   },
   "main": "index.min.js",
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "request": "^2.81.0",
     "setheaders": "0.3.0",
     "tickle": "1.4.0"
   },
   "devDependencies": {
-    "express": "~4.15",
+    "express": "~4.16",
     "grunt": "~1.0",
     "grunt-contrib-jshint": "~1.1",
-    "grunt-contrib-uglify": "~3.0",
-    "grunt-endline": "~0.6",
-    "grunt-safer-regex": "~0.0",
+    "grunt-contrib-uglify": "~3.3",
+    "grunt-endline": "~0.7",
+    "grunt-safer-regex": "~0.1",
     "istanbul": "~0.4",
-    "mocha": "~3.4",
+    "mocha": "~3.5",
     "supertest": "~3.0"
   },
   "engines": {
     "node": ">=4"
   },
   "scripts": {
+    "prepare": "npm prune",
+    "prepublishOnly": "grunt",
     "test": "npm run express4 && npm install express@3 && npm run express3",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- test/*",
     "express3": "mocha --bail --check-leaks",
