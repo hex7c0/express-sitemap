@@ -108,6 +108,7 @@ function Sitemap(options) {
   this.my = {
     url: http + url + port,
     hideByRegex: hideByRegex,
+    head: String(opt.head || ''),
     sitemap: String(opt.sitemap || 'sitemap.xml'),
     robots: String(opt.robots || 'robots.txt'),
     route: typeof (opt.route) == 'object' ? opt.route : Object.create(null),
@@ -299,11 +300,18 @@ Sitemap.prototype.xml = function() {
   var hideByRegex = this.my.hideByRegex;
   var sitemap = this.map;
 
+  var tail = '</urlset>';
+
   var head = '<?xml version="1.0" encoding="UTF-8"?>';
-  head += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  if (this.my.head) {
+    head += this.my.head;
+  } else {
+    head += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  }
+
   var lang = ' xmlns:xhtml="http://www.w3.org/1999/xhtml">';
   var langFlag = false;
-  var tail = '</urlset>';
+
   var data = '';
 
   for ( var uri in sitemap) {

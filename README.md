@@ -139,6 +139,7 @@ sitemap.TXTtoWeb(res);
  - `cache` - **Integer** Enable cache integration, refresh map after this millisecond value *(default "false")*
  - `url` - **String** Website URL *(default "127.0.0.1")*
  - `port` - **Number** Website Port *(default "80")*
+ - `head` - **String** Head of XML file *(default "<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">")*
  - `sitemap` - **String** Name of sitemap file *(default "sitemap.xml")*
  - `robots` - **String** Name of robots file *(default "robots.txt")*
  - `sitemapSubmission` - **String** Set `Sitemap` absolute location into robots *(default "disable")*
