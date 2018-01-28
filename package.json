@@ -33,12 +33,12 @@
   "devDependencies": {
     "express": "~4.16",
     "grunt": "~1.0",
-    "grunt-contrib-jshint": "~1.1",
     "grunt-contrib-uglify": "~3.3",
+    "grunt-contrib-jshint": "~1.1",
     "grunt-endline": "~0.7",
     "grunt-safer-regex": "~0.1",
     "istanbul": "~0.4",
-    "mocha": "~3.5",
+    "mocha": "~4.1",
     "supertest": "~3.0"
   },
   "engines": {
